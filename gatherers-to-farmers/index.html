@@ -42,5 +42,24 @@ class Component extends DCLogic {
   }
 }
 </script>
+
+<script>window.TP_AUTOPLAY = false;</script>
+<style>#tp-start{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(5,30,22,.55);cursor:pointer}
+#tp-start button{font:700 34px Caladea,Cambria,Georgia,serif;color:#163A2C;background:#E2B04C;border:0;border-radius:999px;padding:22px 54px;box-shadow:0 10px 30px rgba(0,0,0,.4);cursor:pointer}
+#tp-start small{display:block;font:20px Carlito,Calibri,sans-serif;color:#F6F1E3;margin-top:14px;text-align:center}</style>
+<div id="tp-start"><div><button type="button">▶ Play</button><small>with voice-over and music</small></div></div>
+<script>(function(){
+  var o = document.getElementById('tp-start'), done = false;
+  var ready = function(){ return !!document.querySelector('svg[data-om-sync-seek]'); };
+  function start(){ if (done) return; done = true; o.remove();
+    var go = function(){ if (!ready()) return setTimeout(go, 150);
+      window.dispatchEvent(new KeyboardEvent('keydown', {code: 'Space', bubbles: true})); };
+    go(); }
+  o.addEventListener('click', start);
+  window.addEventListener('keydown', function(e){ if (e.code === 'Space' && !done) { done = true; o.remove(); } }, true);
+  try { var probe = new Audio(window.TP_AUDIO || ''); probe.volume = 0.01;
+    probe.play().then(function(){ probe.pause(); start(); }).catch(function(){}); } catch (e) {}
+  setTimeout(function(){ document.title = 'Viewport'; }, 4000);
+})();</script>
 </body>
 </html>

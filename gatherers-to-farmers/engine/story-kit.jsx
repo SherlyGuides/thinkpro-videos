@@ -252,7 +252,8 @@ function StoryFrame({ props = {}, dur, persistKey, collage = [], children }) {
   const collageOp = num(props.collageOpacity, 0.07);
   const logoScale = num(props.logoScale, 1);
   return (
-    <Stage width={1920 * RS} height={1080 * RS} duration={dur} background={SK.bg0} persistKey={persistKey}>
+    <Stage width={1920 * RS} height={1080 * RS} duration={dur} background={SK.bg0} persistKey={persistKey}
+      autoplay={window.TP_AUTOPLAY === false ? false : true}>   {/* hosted copies start on a tap so the browser allows sound */}
       <div style={{ position: "absolute", left: 0, top: 0, width: 1920, height: 1080, transform: `scale(${RS})`, transformOrigin: "top left", overflow: "hidden" }}>
         <Sprite start={0} end={dur}>
           {({ localTime: t }) => (
