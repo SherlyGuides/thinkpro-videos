@@ -41,7 +41,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // ---- Panel copy. Title defaults mirror the DC data-props (titleNText) — keep in sync. ----
 const TITLES = {
-  1: "From Gatherers to Farmers", 2: "Big question", 3: "Gatherers", 4: "A gatherer's life", 5: "Hunters and fire",
+  1: "LP1–4 – From Gatherers to Farmers", 2: "Big question", 3: "Gatherers", 4: "A gatherer's life", 5: "Hunters and fire",
   6: "Hunter-gatherers", 7: "The big idea", 8: "First crops and tamed animals", 9: "Ash mounds of Karnataka",
   10: "Life before and after farming", 11: "Watering crops, step by step", 12: "A 2,000-year-old dam still at work",
   13: "Drip irrigation", 14: "Saving the best seeds", 15: "Native and hybrid seeds", 16: "Millets",
