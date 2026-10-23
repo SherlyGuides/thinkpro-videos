@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Viewport</title>
+<title>From Gatherers to Farmers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400&family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>body{background:#0F3D2E;margin:0}</style>
 <meta charset="utf-8">
@@ -52,14 +52,17 @@ class Component extends DCLogic {
   var o = document.getElementById('tp-start'), done = false;
   var ready = function(){ return !!document.querySelector('svg[data-om-sync-seek]'); };
   function start(){ if (done) return; done = true; o.remove();
-    var go = function(){ if (!ready()) return setTimeout(go, 150);
-      window.dispatchEvent(new KeyboardEvent('keydown', {code: 'Space', bubbles: true})); };
+    var tries = 0, go = function(){ if (!ready()) return setTimeout(go, 150);
+      if (window.TP_NOW && window.TP_NOW.playing) return;          // keep nudging until the timeline really runs
+      if (tries++ > 12) return;
+      window.dispatchEvent(new KeyboardEvent('keydown', {code: 'Space', bubbles: true}));
+      setTimeout(go, 400); };
     go(); }
   o.addEventListener('click', start);
   window.addEventListener('keydown', function(e){ if (e.code === 'Space' && !done) { done = true; o.remove(); } }, true);
   try { var probe = new Audio(window.TP_AUDIO || ''); probe.volume = 0.01;
     probe.play().then(function(){ probe.pause(); start(); }).catch(function(){}); } catch (e) {}
-  setTimeout(function(){ document.title = 'Viewport'; }, 4000);
+  setTimeout(function(){ document.title = 'From Gatherers to Farmers'; }, 4000);
 })();</script>
 </body>
 </html>

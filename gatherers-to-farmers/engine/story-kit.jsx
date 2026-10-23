@@ -229,6 +229,73 @@ function TimeProbe() {
   return null;
 }
 
+// ---- Presenter stops ----------------------------------------------------------------
+// StopCard: "Pause and discuss" card over the photo area during a silent hold (a
+// sentence's pauseAfter). StopAt: on the web player, really freeze the timeline when
+// the playhead reaches the stop; when the teacher presses play, skip the rest of the
+// hold. The export (frame-by-frame seeks) just shows the card for the hold.
+function StopCard({ lt, at, hold, question, n, total, op = 1 }) {
+  const o = windowOp(lt, at, at + hold, 0.35) * op;
+  if (o <= 0) return null;
+  return (
+    <div style={{ position: "absolute", left: 40, top: 60, width: LEFT_W - 80, height: 900, borderRadius: 26, background: "rgba(5,30,22,0.82)", opacity: o,
+      boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 80, boxSizing: "border-box", textAlign: "center" }}>
+      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 30, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "10px 30px", borderRadius: 14 }}>PAUSE AND DISCUSS</div>
+      <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 56, lineHeight: 1.2, color: SK.white, marginTop: 44, maxWidth: 1100 }}>{question}</div>
+      <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim, marginTop: 50 }}>{n && total ? `Stop ${n} of ${total} · ` : ""}press play to continue</div>
+    </div>
+  );
+}
+function StopAt({ t, hold }) {
+  const tl = window.useTimeline();
+  const st = React.useRef({ last: null, armed: true });
+  React.useEffect(() => {
+    if (window.TP_AUTOSTOP === false) return;
+    const playing = tl.playing || tl.extPlaying, prev = st.current.last; st.current.last = tl.time;
+    if (tl.time < t - 1 || tl.time > t + hold + 1) { st.current.armed = true; return; }
+    if (playing && st.current.armed && prev != null && prev < t && tl.time >= t) {
+      st.current.armed = false; tl.setTime(t + 0.1);
+      // Pause through the player's own key handler (same path as the teacher's space bar) — a
+      // bare setPlaying(false) from here was ignored on hosted copies in a background tab.
+      window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", bubbles: true }));
+      return;
+    }
+    if (playing && !st.current.armed && tl.time >= t && tl.time < t + hold - 0.5) tl.setTime(t + hold - 0.45);
+  }, [tl.time, tl.playing, tl.extPlaying]);
+  return null;
+}
+// Visual break: the stage fades to plain green and a leaf wipes across (before a Do-you-know card).
+function Break({ lt, at, dur = 2.5 }) {
+  const o = reveal(lt, at, 0.5); if (o <= 0) return null;
+  const p = clamp((lt - at - 0.3) / (dur - 0.5), 0, 1), x = -400 + p * 2800, y = 540 + Math.sin(p * Math.PI) * -120;
+  return (
+    <div style={{ position: "absolute", inset: 0, background: SK.bg0, opacity: o, zIndex: 5 }}>
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080" style={{ position: "absolute", inset: 0 }}>
+        <g transform={`translate(${x} ${y}) rotate(${-20 + p * 40})`} opacity={Math.min(1, p * 4, (1 - p) * 4)}>
+          <path d="M0 0 C 120 -140, 320 -140, 420 0 C 320 140, 120 140, 0 0 Z" fill={SK.leaf} />
+          <path d="M20 0 L 400 0" stroke={SK.bg1} strokeWidth="6" strokeLinecap="round" />
+          {[0.25, 0.45, 0.65].map((k) => <path key={k} d={`M${20 + k * 380} 0 L ${60 + k * 380} ${-60 * (1 - k)} M${20 + k * 380} 0 L ${60 + k * 380} ${60 * (1 - k)}`} stroke={SK.bg1} strokeWidth="4" strokeLinecap="round" fill="none" />)}
+        </g>
+      </svg>
+    </div>
+  );
+}
+// Flip card (quick checks, "why smart" cards): gold "?" back → cream front.
+function Flip({ x, y, w, h, lt, at, q, n, label = "QUESTION", size = 38 }) {
+  const p = reveal(lt, at, 0.7);
+  if (p <= 0) return null;
+  const front = p > 0.5, sx = Math.abs(1 - 2 * Easing.easeInOutCubic(p));
+  return (
+    <div style={{ position: "absolute", left: x, top: y, width: w, height: h, transform: `scaleX(${Math.max(0.02, sx)})`, borderRadius: 22, boxSizing: "border-box",
+      background: front ? SK.cream : SK.gold, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px 34px", textAlign: "center", boxShadow: "0 8px 24px rgba(0,0,0,0.3)" }}>
+      {front
+        ? <div>{n != null && <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: SK.goldDeep, marginBottom: 10 }}>{label} {n}</div>}
+            <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: size, lineHeight: 1.2, color: SK.ink }}>{q}</div></div>
+        : <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 120, color: SK.ink }}>?</div>}
+    </div>
+  );
+}
+
 // ---- Scene shell -----------------------------------------------------------------
 // One beat: cross-fade, the right-panel content, the photo-area body, the caption.
 function Scene({ lt, dur, panel, captions, showCaps = true, capSize = 34, children, fi = 0.5, fo = 0.5 }) {
@@ -287,4 +354,4 @@ function StoryFrame({ props = {}, dur, persistKey, collage = [], children }) {
 }
 
 window.TPStory = { SK, SERIF, SANS, LEFT_W, PANEL_X, PANEL_W, PAD, pop, out3, lerp, drive, photoSrc,
-  Pic, Chip, Badge, Big, Card, Panel, Caption, SVG, Arrow, Ring, T, ChimeAt, TimeProbe, Scene, StoryFrame };
+  Pic, Chip, Badge, Big, Card, Panel, Caption, SVG, Arrow, Ring, T, ChimeAt, TimeProbe, Scene, StoryFrame, StopCard, StopAt, Break, Flip };
