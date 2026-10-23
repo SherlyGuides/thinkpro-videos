@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LP1 \u2013 Gatherers to Cultivators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400&family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>body{background:#0F3D2E;margin:0}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>window.TP_ASSETS = "assets/"; window.TP_ENGINE = "engine/";</script>
+<script src="timing.js"></script>
+<script src="photos.js"></script>
+<script src="engine/theme.js"></script>
+<script src="engine/support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="lp1-gatherers-to-cultivators" description="ThinkPro Academy STORY-style explainer (engine/story-kit.jsx): dark-green stage, photos in motion left, cream info panel right, Do-you-know cards, 4K export" -->
+<helmet>
+  <script>
+    window.MD_TIMESCALE = 1;
+    window.MD_SCENE = {};
+    window.MD_WARP = {};
+  </script>
+</helmet>
+<x-import component-from-global-scope="CultivatorsScenes"
+          from="engine/animations-v2.jsx engine/motion.js engine/voice-sync.js engine/stage-kit.jsx engine/story-kit.jsx scenes.jsx"
+          dc-props="{{ tweaks }}"
+          hint-size="100%,100%"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;100%&quot;}, &quot;showCaptions&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Content&quot;}, &quot;captionSize&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 34, &quot;min&quot;: 24, &quot;max&quot;: 48, &quot;step&quot;: 1, &quot;unit&quot;: &quot;px&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Content&quot;}, &quot;renderScale&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: 2, &quot;options&quot;: [1, 1.5, 2], &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Frame&quot;}, &quot;collageOpacity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.07, &quot;min&quot;: 0, &quot;max&quot;: 0.4, &quot;step&quot;: 0.01, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Frame&quot;}, &quot;showLogo&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Frame&quot;}, &quot;logoScale&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0.5, &quot;max&quot;: 1.5, &quot;step&quot;: 0.05, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Frame&quot;}, &quot;title1Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;LP1 \u2013 Gatherers to Cultivators&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;1 \u00b7 Panel title&quot;}, &quot;title2Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Gatherers&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;2 \u00b7 Panel title&quot;}, &quot;title3Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Hunters and fire&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;3 \u00b7 Panel title&quot;}, &quot;title4Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;The big idea&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;4 \u00b7 Panel title&quot;}, &quot;title5Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;First crops, first animals&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;5 \u00b7 Panel title&quot;}, &quot;title6Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Watering, step by step&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;6 \u00b7 Panel title&quot;}, &quot;title7Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Ancient drip irrigation&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;7 \u00b7 Panel title&quot;}, &quot;title8Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Drip irrigation&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;8 \u00b7 Panel title&quot;}, &quot;title9Text&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;The whole story&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;9 \u00b7 Panel title&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    // Generic tweak forwarding — defaults mirror TITLES in scenes.jsx (keep in sync).
+    const defs = {
+      showCaptions: true, captionSize: 34, renderScale: 2, collageOpacity: 0.07, showLogo: true, logoScale: 1,
+      title1Text: "LP1 \u2013 Gatherers to Cultivators", title2Text: "Gatherers", title3Text: "Hunters and fire", title4Text: "The big idea", title5Text: "First crops, first animals", title6Text: "Watering, step by step", title7Text: "Ancient drip irrigation", title8Text: "Drip irrigation", title9Text: "The whole story",
+    };
+    const tweaks = {};
+    for (const k in defs) tweaks[k] = p[k] ?? defs[k];
+    return { tweaks };
+  }
+}
+</script>
+
+<script>window.TP_AUTOPLAY = false;</script>
+<style>#tp-start{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(5,30,22,.55);cursor:pointer}
+#tp-start button{font:700 34px Caladea,Cambria,Georgia,serif;color:#163A2C;background:#E2B04C;border:0;border-radius:999px;padding:22px 54px;box-shadow:0 10px 30px rgba(0,0,0,.4);cursor:pointer}
+#tp-start small{display:block;font:20px Carlito,Calibri,sans-serif;color:#F6F1E3;margin-top:14px;text-align:center}</style>
+<div id="tp-start"><div><button type="button">▶ Play</button><small>with voice-over and music</small></div></div>
+<script>(function(){
+  var o = document.getElementById('tp-start'), done = false;
+  var ready = function(){ return !!document.querySelector('svg[data-om-sync-seek]'); };
+  function start(){ if (done) return; done = true; o.remove();
+    var tries = 0, go = function(){ if (!ready()) return setTimeout(go, 150);
+      if (window.TP_NOW && window.TP_NOW.playing) return;          // keep nudging until the timeline really runs
+      if (tries++ > 12) return;
+      window.dispatchEvent(new KeyboardEvent('keydown', {code: 'Space', bubbles: true}));
+      setTimeout(go, 400); };
+    go(); }
+  o.addEventListener('click', start);
+  window.addEventListener('keydown', function(e){ if (e.code === 'Space' && !done) { done = true; o.remove(); } }, true);
+  try { var probe = new Audio(window.TP_AUDIO || ''); probe.volume = 0.01;
+    probe.play().then(function(){ probe.pause(); start(); }).catch(function(){}); } catch (e) {}
+  setTimeout(function(){ document.title = 'LP1 \\u2013 Gatherers to Cultivators'; }, 4000);
+})();</script>
+</body>
+</html>
