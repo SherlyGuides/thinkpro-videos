@@ -253,7 +253,13 @@ function StopAt({ t, hold }) {
     if (window.TP_AUTOSTOP === false) return;
     const playing = tl.playing || tl.extPlaying, prev = st.current.last; st.current.last = tl.time;
     if (tl.time < t - 1 || tl.time > t + hold + 1) { st.current.armed = true; return; }
-    if (playing && st.current.armed && prev != null && prev < t && tl.time >= t) { st.current.armed = false; tl.setPlaying(false); tl.setTime(t + 0.1); return; }
+    if (playing && st.current.armed && prev != null && prev < t && tl.time >= t) {
+      st.current.armed = false; tl.setTime(t + 0.1);
+      // Pause through the player's own key handler (same path as the teacher's space bar) — a
+      // bare setPlaying(false) from here was ignored on hosted copies in a background tab.
+      window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", bubbles: true }));
+      return;
+    }
     if (playing && !st.current.armed && tl.time >= t && tl.time < t + hold - 0.5) tl.setTime(t + hold - 0.45);
   }, [tl.time, tl.playing, tl.extPlaying]);
   return null;
