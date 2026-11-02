@@ -20,7 +20,8 @@ const OUTFITS = {
   sankranti:{ shirt: "#00897B", sleeve: "#00897B", bottom: "#F06292", skirt: "#F06292", border: "#FFD54F", shoe: "#5d4037", sock: null, hair: "#1a1a1a", jasmine: true },
 };
 // Angles in degrees: 0 = limb hanging straight down, positive = swung forward (the facing side).
-const STAND = { sL: 0, eL: 0, sR: 0, eR: 0, hL: 0, kL: 0, hR: 0, kR: 0, lean: 0, dy: 0, head: 0 };
+const STAND = { sL: 0, eL: 0, sR: 0, eR: 0, wL: 0, wR: 0, hL: 0, kL: 0, hR: 0, kR: 0, fL: 0, fR: 0, lean: 0, chest: 0, dy: 0, head: 0 };
+const HAND = { open: 0, grip: 1, point: 2 };      // hand shapes travel through blends as numbers (nearest wins)
 const POSES = {
   stand: STAND,
   point:  { ...STAND, sR: 88, eR: 4, sL: 8, eL: -10, head: 4 },
@@ -51,15 +52,38 @@ const walk = (lt, speed = 1.6) => {
   return { ...STAND, hL: 26 * s, hR: -26 * s, kL: Math.max(0, -42 * s), kR: Math.max(0, 42 * s),
     sL: -22 * s, sR: 22 * s, eL: -18, eR: -18, dy: -1.4 * Math.abs(c), lean: 3, head: 2 };
 };
-const blendPose = (a, b, k) => { const o = {}; for (const key in STAND) o[key] = lerp(a[key] ?? 0, b[key] ?? 0, k); return o; };
-const resolve = (p, lt) => typeof p === "function" ? p(lt) : typeof p === "string" ? POSES[p] : p;
+const blendPose = (a, b, k) => { const o = {}; for (const key in STAND) o[key] = lerp(a[key] ?? 0, b[key] ?? 0, k); o.handL = k < 0.5 ? a.handL : b.handL; o.handR = k < 0.5 ? a.handR : b.handR; return o; };
+// ---- Motion clips: named keyframe sequences (engine/motions.js = the approved library) -------------
+// clip = { dur, loop, base?: poseName, ease?: "smooth"|"snap"|"linear", keys: [{ t, p: {partial pose}, ease? }] }
+function clipPose(clip, t) {
+  const base = { ...STAND, ...(clip.base ? POSES[clip.base] : {}) };
+  const dur = clip.dur || 1, keys = clip.keys || [];
+  if (!keys.length) return base;
+  const tt = clip.loop ? ((t % dur) + dur) % dur : clamp(t, 0, dur);
+  const ks = clip.loop ? [...keys, { t: dur, p: keys[0].p, ease: keys[0].ease }] : keys;
+  let i = 0; while (i + 1 < ks.length && tt >= ks[i + 1].t) i++;
+  const a = ks[i], b = ks[Math.min(i + 1, ks.length - 1)];
+  const span = b.t - a.t; let k = span > 0 ? (tt - a.t) / span : 1;
+  const e = b.ease || clip.ease || "smooth";
+  k = e === "linear" ? k : e === "snap" ? Easing.easeOutBack(k) : e === "out" ? Easing.easeOutCubic(k) : Easing.easeInOutCubic(k);
+  return blendPose({ ...base, ...a.p }, { ...base, ...b.p }, k);
+}
+const clipByName = (name) => (window.TPMotions && window.TPMotions.clips && window.TPMotions.clips[name]) || null;
+// play("walk") inside poseAt keys: [[t0, play("walk")], [t1, "stand"]] — clip time starts at the key's time.
+const play = (nameOrClip, speed = 1) => ({ clip: nameOrClip, speed });
+const resolve = (p, lt, t0 = 0) => {
+  if (typeof p === "function") return p(lt);
+  if (typeof p === "string") return POSES[p] || STAND;
+  if (p && p.clip != null) { const c = typeof p.clip === "string" ? clipByName(p.clip) : p.clip; return c ? clipPose(c, (lt - t0) * (p.speed || 1)) : STAND; }
+  return p;
+};
 // keys: [[time, pose | "name" | fn(lt)], ...] — blends into each new pose over `trans` seconds.
 function poseAt(lt, keys, trans = 0.6) {
   let i = 0; while (i + 1 < keys.length && lt >= keys[i + 1][0]) i++;
-  const cur = resolve(keys[i][1], lt);
+  const cur = resolve(keys[i][1], lt, keys[i][0]);
   if (i === 0) return cur;
   const k = Easing.easeInOutCubic(clamp((lt - keys[i][0]) / trans, 0, 1));
-  return k >= 1 ? cur : blendPose(resolve(keys[i - 1][1], lt), cur, k);
+  return k >= 1 ? cur : blendPose(resolve(keys[i - 1][1], lt, keys[i - 1][0]), cur, k);
 }
 
 // ---- Props held in a hand (hand-local: the hand is at 0,0, "down" = along the forearm) ------
@@ -97,18 +121,22 @@ function Student({ x, y, h = 340, pose = "stand", facing = 1, outfit = "uniform"
   const headR = adult ? 10.5 : 12;
   const held = (pr) => pr ? (typeof pr === "string" ? PROPS[pr] : pr) : null;
 
-  const Arm = ({ sx, sa, ea, pr }) => (
+  const Arm = ({ sx, sa, ea, wa = 0, hs = 0, pr }) => (
     <g transform={`translate(${sx},-73) ${rot(sa)}`}>
       <line x1="0" y1="0" x2="0" y2="8" stroke={c.sleeve} strokeWidth="7" strokeLinecap="round" />
       <line x1="0" y1="7" x2="0" y2="16" stroke={sk} strokeWidth="5.6" strokeLinecap="round" />
       <g transform={`translate(0,16) ${rot(ea)}`}>
         <line x1="0" y1="0" x2="0" y2="14" stroke={sk} strokeWidth="5.2" strokeLinecap="round" />
-        <circle cx="0" cy="15" r="3.3" fill={gloves ? "#4CAF50" : sk} />
         {gloves && <line x1="0" y1="11" x2="0" y2="13" stroke="#fff" strokeWidth="5.6" />}
-        {held(pr) && <g transform="translate(0,15)">{held(pr)}</g>}
+        <g transform={`translate(0,14) ${rot(wa)}`}>
+          <circle cx="0" cy="1.5" r="3.3" fill={gloves ? "#4CAF50" : sk} />
+          {hs === HAND.point && <line x1="0" y1="2" x2="0" y2="8" stroke={gloves ? "#4CAF50" : sk} strokeWidth="2.2" strokeLinecap="round" />}
+          {hs === HAND.grip && <circle cx="0" cy="1.5" r="2" fill="rgba(0,0,0,0.18)" />}
+          {held(pr) && <g transform="translate(0,1.5)">{held(pr)}</g>}
+        </g>
       </g>
     </g>);
-  const Leg = ({ hx, ha, ka }) => {
+  const Leg = ({ hx, ha, ka, fa = 0 }) => {
     const legCol = girl && c.sock !== undefined ? sk : c.bottom;          // bare shins under a pinafore / dress, trousers otherwise
     return (
       <g transform={`translate(${hx},-46) ${rot(ha)}`}>
@@ -116,7 +144,7 @@ function Student({ x, y, h = 340, pose = "stand", facing = 1, outfit = "uniform"
         <g transform={`translate(0,22) ${rot(ka)}`}>
           <line x1="0" y1="0" x2="0" y2="22" stroke={girl ? legCol : c.bottom} strokeWidth="6.4" strokeLinecap="round" />
           {c.sock && <line x1="0" y1="15" x2="0" y2="22" stroke={c.sock} strokeWidth="6.6" strokeLinecap="round" />}
-          <path d="M-3.4 20 h7 q4 0 4 3.2 v1 h-11z" fill={c.shoe} />
+          <path d="M-3.4 20 h7 q4 0 4 3.2 v1 h-11z" fill={c.shoe} transform={`translate(0,21) ${rot(fa)} translate(0,-21)`} />
         </g>
       </g>);
   };
@@ -157,14 +185,16 @@ function Student({ x, y, h = 340, pose = "stand", facing = 1, outfit = "uniform"
     <g transform={`translate(${x},${y}) scale(${s * facing},${s})`} opacity={o}>
       <g transform={`translate(0,${p.dy})`}>
         <g transform={`translate(0,-46) ${rot(p.lean)} translate(0,46) translate(0,${breathe * 0.3})`}>
-          <Arm sx={-7} sa={p.sL} ea={p.eL} pr={propL} />
+          <Arm sx={-7} sa={p.sL} ea={p.eL} wa={p.wL} hs={p.handL == null ? (propL ? HAND.grip : HAND.open) : p.handL} pr={propL} />
         </g>
-        <Leg hx={-5} ha={p.hL} ka={p.kL} />
-        <Leg hx={5} ha={p.hR} ka={p.kR} />
+        <Leg hx={-5} ha={p.hL} ka={p.kL} fa={p.fL} />
+        <Leg hx={5} ha={p.hR} ka={p.kR} fa={p.fR} />
         <g transform={`translate(0,-46) ${rot(p.lean)} translate(0,46) translate(0,${breathe * 0.3})`}>
+          <g transform={`translate(0,-62) ${rot(p.chest)} translate(0,62)`}>
           <Torso /><Head />
-          <Arm sx={7} sa={p.sR} ea={p.eR} pr={propR} />
+          <Arm sx={7} sa={p.sR} ea={p.eR} wa={p.wR} hs={p.handR == null ? (propR ? HAND.grip : HAND.open) : p.handR} pr={propR} />
           {children}
+          </g>
         </g>
       </g>
     </g>
@@ -192,4 +222,4 @@ function NurseryBags({ x, y, n = 5, gap = 70 }) {
     <path d="M36 6 l-5 -16 M36 6 l5 -16" stroke="#66BB6A" strokeWidth="3" strokeLinecap="round" fill="none" /></g>)}</g>;
 }
 
-window.TPPeople = { SKIN, OUTFITS, POSES, PROPS, STAND, walk, wipe, count, scrub, blendPose, poseAt, Student, LabTable, SeedPan, NurseryBags };
+window.TPPeople = { SKIN, OUTFITS, POSES, PROPS, STAND, HAND, walk, wipe, count, scrub, blendPose, clipPose, clipByName, play, poseAt, Student, LabTable, SeedPan, NurseryBags };
