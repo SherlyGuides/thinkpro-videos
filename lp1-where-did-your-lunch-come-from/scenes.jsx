@@ -485,10 +485,49 @@ function B11(ctx) {
 function B12(ctx) {
   const steps = [["water_carry", "Carrying by hand", "carrying"], ["water_channel", "Small channels", "channels"], ["water_rope", "Rope and bucket", "rope"],
     ["water_persian", "Persian wheel", "persian"], ["water_pump", "Motor pump", "motor"], ["water_sprinkler", "Sprinkler", "sprinklers"]];
-  const sources = [["Well", <g><rect x={-30} y={-6} width={60} height={40} fill="#8A6A48" /><path d="M-44 -6 L0 -40 L44 -6 Z" fill="#B98747" /><rect x={-14} y={6} width={28} height={28} fill="#7FD3F7" /></g>],
-    ["Pond", <ellipse cx={0} cy={10} rx={44} ry={24} fill="#7FD3F7" />], ["River", <path d="M-46 -20 C -20 -40 0 0 20 -14 S 40 20 50 10" stroke="#7FD3F7" strokeWidth={12} fill="none" strokeLinecap="round" />],
-    ["Canal", <g><rect x={-46} y={-8} width={92} height={30} fill="#7FD3F7" /><line x1={-46} y1={-8} x2={46} y2={-8} stroke={SK.soil} strokeWidth={6} /><line x1={-46} y1={22} x2={46} y2={22} stroke={SK.soil} strokeWidth={6} /></g>],
-    ["Tank", <g><rect x={-36} y={-24} width={72} height={56} rx={6} fill="#8A6A48" /><rect x={-28} y={-8} width={56} height={32} fill="#7FD3F7" /></g>]];
+  // Water-source icons (glyph space ±50, drawn ×1.6 inside the gold ring). Conventional forms: a stone well with
+  // pulley and bucket; a pond with reeds and a lily pad; a river winding between banks; a lined canal running to
+  // a sluice gate; an irrigation tank = water held behind an earth bund with an outlet.
+  const W_BLUE = "#7FD3F7", W_STONE = "#A89683", W_STONE2 = "#7C6A58", W_WOOD = "#8A6A48", W_GRASS = "#6B9A4E";
+  const sources = [
+    ["Well", <g>
+      <path d="M-42 -30 L0 -52 L42 -30 Z" fill="#B98747" /><rect x={-40} y={-31} width={80} height={5} fill="#8A6A48" />
+      <line x1={-28} y1={-28} x2={-28} y2={16} stroke={W_WOOD} strokeWidth={5} /><line x1={28} y1={-28} x2={28} y2={16} stroke={W_WOOD} strokeWidth={5} />
+      <line x1={-28} y1={-22} x2={28} y2={-22} stroke={W_WOOD} strokeWidth={4} /><circle cx={0} cy={-22} r={7} fill="none" stroke={W_WOOD} strokeWidth={3} />
+      <line x1={0} y1={-15} x2={0} y2={-2} stroke="#E3DBC3" strokeWidth={2} /><path d="M-8 -2 L8 -2 L6 10 L-6 10 Z" fill={W_STONE2} /><line x1={-8} y1={-2} x2={8} y2={-2} stroke="#E3DBC3" strokeWidth={2} />
+      <rect x={-36} y={16} width={72} height={30} rx={4} fill={W_STONE} />
+      <g stroke={W_STONE2} strokeWidth={2}><line x1={-36} y1={26} x2={36} y2={26} /><line x1={-36} y1={36} x2={36} y2={36} /><line x1={-18} y1={16} x2={-18} y2={26} /><line x1={6} y1={16} x2={6} y2={26} /><line x1={24} y1={16} x2={24} y2={26} /><line x1={-30} y1={26} x2={-30} y2={36} /><line x1={-6} y1={26} x2={-6} y2={36} /><line x1={16} y1={26} x2={16} y2={36} /><line x1={-18} y1={36} x2={-18} y2={46} /><line x1={6} y1={36} x2={6} y2={46} /><line x1={28} y1={36} x2={28} y2={46} /></g>
+      <ellipse cx={0} cy={16} rx={36} ry={8} fill={W_STONE2} /><ellipse cx={0} cy={16} rx={26} ry={5} fill={W_BLUE} />
+    </g>],
+    ["Pond", <g>
+      <ellipse cx={0} cy={14} rx={52} ry={24} fill={W_GRASS} /><ellipse cx={0} cy={14} rx={42} ry={17} fill={W_BLUE} />
+      <g stroke="#FFFFFF" strokeWidth={2.5} fill="none" strokeLinecap="round" opacity={0.85}><path d="M-14 12 q6 -4 12 0" /><path d="M-2 22 q6 -4 12 0" /><path d="M14 10 q5 -3 10 0" /></g>
+      <g stroke="#4E8A3A" strokeWidth={3} strokeLinecap="round"><line x1={-34} y1={18} x2={-40} y2={-26} /><line x1={-28} y1={18} x2={-27} y2={-34} /><line x1={-22} y1={18} x2={-16} y2={-20} /></g>
+      <rect x={-43} y={-30} width={5} height={12} rx={2.5} fill="#5C4A3E" /><rect x={-30} y={-38} width={5} height={12} rx={2.5} fill="#5C4A3E" /><rect x={-19} y={-24} width={5} height={10} rx={2.5} fill="#5C4A3E" />
+      <path d="M26 16 m-9 0 a9 9 0 1 1 9 9 L26 16 Z" fill="#4CAF50" /><circle cx={33} cy={9} r={3} fill="#F48FB1" />
+    </g>],
+    ["River", <g>
+      <path d="M-50 -34 C -24 -42 -24 -4 0 -2 S 24 36 50 30" stroke={W_GRASS} strokeWidth={34} fill="none" strokeLinecap="round" />
+      <path d="M-50 -34 C -24 -42 -24 -4 0 -2 S 24 36 50 30" stroke={W_BLUE} strokeWidth={18} fill="none" strokeLinecap="round" />
+      <g stroke="#FFFFFF" strokeWidth={2.5} fill="none" strokeLinecap="round" opacity={0.85}><path d="M-34 -30 q5 -3 10 0" /><path d="M-10 -8 q5 -3 10 0" /><path d="M14 16 q5 -3 10 0" /><path d="M34 28 q5 -3 10 0" /></g>
+      <g fill="#4E8A3A"><circle cx={-36} cy={-6} r={5} /><circle cx={-28} cy={2} r={4} /><circle cx={34} cy={-6} r={5} /><circle cx={40} cy={4} r={4} /></g>
+    </g>],
+    ["Canal", <g>
+      <path d="M-56 46 L-26 -26 L26 -26 L56 46 Z" fill={W_STONE} />
+      <path d="M-44 46 L-18 -26 L18 -26 L44 46 Z" fill={W_BLUE} />
+      <g stroke={W_STONE2} strokeWidth={2}><line x1={-50} y1={30} x2={-40} y2={30} /><line x1={-45} y1={10} x2={-36} y2={10} /><line x1={-39} y1={-10} x2={-32} y2={-10} /><line x1={50} y1={30} x2={40} y2={30} /><line x1={45} y1={10} x2={36} y2={10} /><line x1={39} y1={-10} x2={32} y2={-10} /></g>
+      <g stroke="#FFFFFF" strokeWidth={2.5} fill="none" strokeLinecap="round" opacity={0.85}><path d="M-10 30 q6 -4 12 0" /><path d="M-5 8 q5 -3 10 0" /><path d="M-3 -12 q4 -2 8 0" /></g>
+      <rect x={-30} y={-42} width={60} height={16} rx={2} fill="#5C4A3E" /><rect x={-14} y={-36} width={28} height={10} fill="#8A6A48" />
+      <line x1={0} y1={-42} x2={0} y2={-52} stroke="#5C4A3E" strokeWidth={4} /><circle cx={0} cy={-52} r={6} fill="none" stroke={SK.gold} strokeWidth={3} />
+    </g>],
+    ["Tank", <g>
+      <path d="M-52 -26 Q -40 -34 -24 -30 T 8 -30 T 40 -30 L52 -26 L52 8 L-52 8 Z" fill={W_BLUE} />
+      <g stroke="#FFFFFF" strokeWidth={2.5} fill="none" strokeLinecap="round" opacity={0.85}><path d="M-30 -12 q6 -4 12 0" /><path d="M-6 -2 q6 -4 12 0" /><path d="M18 -14 q6 -4 12 0" /></g>
+      <path d="M-52 8 L52 8 L52 34 L-52 34 Z" fill={W_WOOD} /><path d="M-52 8 L52 8 L52 14 L-52 14 Z" fill="#6E5236" />
+      <g stroke="#6E5236" strokeWidth={2}><line x1={-40} y1={14} x2={-40} y2={34} /><line x1={-20} y1={14} x2={-20} y2={34} /><line x1={20} y1={14} x2={20} y2={34} /><line x1={40} y1={14} x2={40} y2={34} /></g>
+      <rect x={-9} y={10} width={18} height={24} fill="#3E3028" /><rect x={-5} y={14} width={10} height={16} fill={W_BLUE} />
+      <path d="M0 34 L0 50" stroke={W_BLUE} strokeWidth={9} strokeLinecap="round" /><g stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" opacity={0.85}><line x1={-2} y1={40} x2={-2} y2={46} /></g>
+    </g>]];
   return ({ localTime: lt, duration }) => {
     const ats = steps.map((s) => W("b12", s[2])), cSrc = S("b12", 4), sa = ["wells", "ponds", "rivers", "canals", "tanks"].map((w) => W("b12", w)), cDyk = sa[4] + 1.2;
     const breakAt = SE("b12", 4) + 0.3;
@@ -516,7 +555,10 @@ function B12(ctx) {
           <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 22, letterSpacing: "0.14em", color: SK.gold }}>NEW WATER SOURCES</div>
           <div style={{ display: "flex", justifyContent: "space-around", marginTop: 60 }}>
             {sources.map(([t, glyph], i) => <div key={t} style={{ textAlign: "center", opacity: pop(lt, sa[i], 0.6), transform: `scale(${0.8 + 0.2 * pop(lt, sa[i], 0.6)})` }}>
-              <svg width="200" height="200" viewBox="-100 -100 200 200"><circle r={90} fill="rgba(255,255,255,0.1)" stroke={SK.gold} strokeWidth={4} /><g transform="scale(1.6)">{glyph}</g></svg>
+              <svg width="200" height="200" viewBox="-100 -100 200 200"><circle r={90} fill="rgba(255,255,255,0.1)" stroke={SK.gold} strokeWidth={4} />
+                {!window.TP_NO_ICON_IMAGES && (window.TP_PHOTOS || {})["icon_" + t.toLowerCase()]
+                  ? <g><clipPath id={`wsrc-${t}`}><circle r={87} /></clipPath><image href={window.TP_PHOTOS["icon_" + t.toLowerCase()]} x={-87} y={-87} width={174} height={174} preserveAspectRatio="xMidYMid slice" clipPath={`url(#wsrc-${t})`} /></g>
+                  : <g transform="scale(1.6)">{glyph}</g>}</svg>
               <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 36, color: SK.white, marginTop: 10 }}>{t}</div></div>)}
           </div>
         </Card>
@@ -533,7 +575,7 @@ function B13(ctx) {
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[13]} showCaps={ctx.caps} capSize={ctx.capSize}
         panel={panel(13, ctx, [L("China, Han dynasty – more than 2,000 years ago", cHan, "head"), L("Unglazed clay pots (ollas) buried in the soil, filled with water", cPots),
-          L("Water seeps out slowly, drop by drop, to the roots", cSeep), L("One of the earliest ideas of DRIP watering", cEarly, "big"),
+          L("Water seeps out slowly, drop by drop, to the roots", cSeep), L("One of the earliest ideas of DRIP irrigation", cEarly, "big"),
           L("Source: Fan Shengzhi shu, a Chinese farming book of the 1st century BCE", cEarly + 0.8, "source")])}>
         <Card x={50} y={50} w={1340} h={905} lt={lt} at={0} pad={0} />
         <Badge x={92} y={82} lt={lt} at={S("b13", 0)} text="FUN FACT" />
@@ -541,11 +583,11 @@ function B13(ctx) {
         <Pic slot="claypot" label="Cut-away: water seeps through the pot to the roots" x={92} y={172} w={620} h={440} lt={lt} at={cOllas} fx="zoom" kenDur={20} />
         <SVG op={seep}>{[0, 1, 2, 3, 4, 5, 6, 7].map((i) => { const p = ((lt - cSeep) * 0.45 + i * 0.125) % 1, side = i % 2 ? 1 : -1;
           return <circle key={i} cx={300 + side * (60 + p * 120)} cy={400 + p * 90 + (i % 4) * 14} r={7 - p * 3} fill="#7FD3F7" opacity={1 - p} />; })}</SVG>
-        <Lines x={760} y={180} w={580} lt={lt} lines={[{ text: "Ancient drip watering", at: S("b13", 0), serif: true, bold: true, size: 44, color: SK.gold },
+        <Lines x={760} y={180} w={580} lt={lt} lines={[{ text: "Ancient drip irrigation", at: S("b13", 0), serif: true, bold: true, size: 44, color: SK.gold },
           { text: "More than 2,000 years ago, in China's Han dynasty, farmers wrote about burying clay pots.", at: cHan },
           { text: "Unglazed, porous pots called OLLAS, filled with water.", at: cOllas },
           { text: "The water seeped out slowly… drop… by drop… right to the roots.", at: cSeep },
-          { text: "One of the earliest ideas of DRIP watering!", at: cEarly, serif: true, bold: true, size: 38, color: SK.gold }]} size={30} />
+          { text: "One of the earliest ideas of DRIP irrigation!", at: cEarly, serif: true, bold: true, size: 38, color: SK.gold }]} size={30} />
         <Chip text="drop… by drop…" x={400} y={640} lt={lt} at={cDrop} tone="gold" size={28} />
         <div style={{ position: "absolute", left: 92, top: 880, width: 1260, opacity: out3(lt, cEarly + 0.8, 0.6), fontFamily: SANS, fontSize: 21, color: SK.dim }}>
           Source: Fan Shengzhi shu – a Chinese farming book of the Han dynasty (1st century BCE) – describes buried clay-pot (olla) watering</div>
