@@ -193,8 +193,9 @@ function B1(ctx) {
           L("BIG QUESTION", cKnow, "head"), L("Where did all this food come from?", cKnow), L("No shops. No farms. Nothing.", cImag), L("What would YOU eat?", cEat, "think")])}>
         <div style={{ position: "absolute", left: 0, top: 0, width: 1920, height: 1080, transform: `scale(${zoom})`, transformOrigin: "440px 540px" }}>
           <Plate cx={440} cy={540} r={300} lt={lt} at={0.1} foodOp={foodOp} />
+          <Pic slot="lunch_photo" label="Rice, dal, roti and a banana" x={110} y={210} w={660} h={660} r={330} lt={lt} at={0.1} out={cNothing} fx="zoom" />
         </div>
-        {[["Rice", 300, 440, "rice"], ["Dal", 560, 400, "dal"], ["Roti", 580, 660, "roti"], ["Banana", 250, 700, "banana"]].map(([t, x, y, w]) =>
+        {[["Rice", 300, 440, "rice"], ["Dal", 560, 400, "dal"], ["Roti", 580, 660, "roti"], ["Banana", 640, 640, "banana"]].map(([t, x, y, w]) =>
           <Chip key={t} text={t} x={x} y={y} lt={lt} at={W("b1", w)} out={cKnow} size={24} />)}
         <Big x={780} y={120} w={600} lt={lt} at={cKnow} out={cImag} size={64}>Where did your lunch come from?</Big>
         <Chip text="NO SHOPS" x={1080} y={300} lt={lt} at={cShops} tone="gold" size={40} />
