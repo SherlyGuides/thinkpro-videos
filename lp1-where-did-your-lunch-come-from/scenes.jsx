@@ -195,7 +195,7 @@ function B1(ctx) {
           <Plate cx={440} cy={540} r={300} lt={lt} at={0.1} foodOp={foodOp} />
           <Pic slot="lunch_photo" label="Rice, dal, roti and a banana" x={110} y={210} w={660} h={660} r={330} lt={lt} at={0.1} out={cNothing} fx="zoom" />
         </div>
-        {[["Rice", 300, 440, "rice"], ["Dal", 560, 400, "dal"], ["Roti", 580, 660, "roti"], ["Banana", 640, 640, "banana"]].map(([t, x, y, w]) =>
+        {[["Rice", 300, 440, "rice"], ["Dal", 560, 400, "dal"], ["Roti", 580, 660, "roti"], ["Banana", 700, 560, "banana"]].map(([t, x, y, w]) =>
           <Chip key={t} text={t} x={x} y={y} lt={lt} at={W("b1", w)} out={cKnow} size={24} />)}
         <Big x={780} y={120} w={600} lt={lt} at={cKnow} out={cImag} size={64}>Where did your lunch come from?</Big>
         <Chip text="NO SHOPS" x={1080} y={300} lt={lt} at={cShops} tone="gold" size={40} />
