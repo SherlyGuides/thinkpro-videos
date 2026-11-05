@@ -121,31 +121,29 @@ const Slide = ({ lt, at, from = -1, children, out = null }) => {
   return <div style={{ position: "absolute", inset: 0, transform: `translateX(${from * (1 - p) * 500}px)`, opacity: o }}>{children}</div>;
 };
 
-// ---- The INDIA MAP (simplified outline, lon/lat projected) -------------------------------
-const INDIA = [[74.5, 37], [77.8, 35.5], [79.5, 32.5], [81, 30.2], [84, 28.5], [88, 27.9], [88.2, 26.6], [89.8, 26.8], [92, 27.8], [95.5, 29.2], [97, 28], [95.5, 26.5],
-  [94.5, 25], [93.5, 23.5], [92.6, 22], [91.8, 23.5], [91.2, 24.6], [90, 25.2], [89.8, 26.0], [88.6, 26.3], [88.2, 25.2], [88.8, 24.2], [88.6, 22.6], [89.0, 21.6],
-  [87, 21.5], [85, 19.6], [84, 18.3], [82.3, 16.6], [81.2, 15.9], [80.2, 15.2], [80.3, 13.2], [79.8, 11.5], [79.9, 10.3], [79.2, 9.3], [78.2, 8.9], [77.5, 8.1],
-  [76.6, 8.9], [76.2, 10], [75.6, 11.7], [74.8, 12.9], [74.4, 14.5], [73.8, 15.8], [73.1, 17.5], [72.8, 19.0], [72.9, 20.7], [72.6, 21.4], [71.0, 20.8], [69.5, 21.8],
-  [68.9, 22.5], [70.2, 22.9], [68.6, 23.6], [69.5, 24.3], [71.0, 24.5], [70.5, 25.6], [70.0, 26.5], [70.6, 27.9], [72.0, 28.9], [73.4, 29.9], [74.5, 30.9], [74.6, 31.9],
-  [75.2, 32.6], [74.0, 33.2], [73.6, 34.5]];
+// ---- The INDIA MAP (official outline + islands: india-map.js, copied from LP5) ---------------
+const MAP = window.LP5_MAP;
+if (!MAP) console.error("india-map.js missing");
 const PLACES = { punjab: [75.4, 30.9], rajasthan: [72.8, 26.6], tamilnadu: [78.4, 11.0], bengal: [87.8, 23.2], deccan: [76.6, 17.0], north: [79, 27.5], east: [85.5, 21.5] };
-const proj = (x, y, k) => ([lon, lat]) => [x + (lon - 68) * k, y + (37 - lat) * k];
+// x,y = the map's top-left on stage, k = stage px per degree of latitude (india-map.js is drawn at MAP.k).
+const proj = (x, y, k) => ([lon, lat]) => [x + (lon - MAP.lon0) * k * MAP.cos, y + (MAP.lat0 - lat) * k];
 // colour = { wheat, rice, millet } fill amounts 0..1 (the grain zones colour in).
 function IndiaMap({ x, y, k = 26, lt, at, colour = {}, op = 1, id = "m", children }) {
   const o = out3(lt, at, 0.8) * op; if (o <= 0) return null;
-  const P = proj(x, y, k), d = "M" + INDIA.map((p) => P(p).join(" ")).join(" L") + " Z";
-  const E = (lon, lat, rx, ry, fill, a) => { const [cx, cy] = P([lon, lat]); return a > 0 ? <ellipse cx={cx} cy={cy} rx={rx * k * (0.6 + 0.4 * a)} ry={ry * k * (0.6 + 0.4 * a)} fill={fill} opacity={0.92 * a} /> : null; };
+  const P = proj(x, y, k), s = k / MAP.k, tf = `translate(${x} ${y}) scale(${s})`;
+  const land = [MAP.outline, ...MAP.islands];
+  const E = (lon, lat, rx, ry, fill, a) => { const [cx, cy] = P([lon, lat]); return a > 0 ? <ellipse cx={cx} cy={cy} rx={rx * k * MAP.cos * (0.6 + 0.4 * a)} ry={ry * k * (0.6 + 0.4 * a)} fill={fill} opacity={0.92 * a} /> : null; };
   const w = colour.wheat || 0, r = colour.rice || 0, m = colour.millet || 0;
   return (
     <SVG op={o}>
-      <defs><clipPath id={"india-" + id}><path d={d} /></clipPath></defs>
-      <path d={d} fill="#2E7A4F" stroke={SK.cream} strokeWidth={5} strokeLinejoin="round" />
+      <defs><clipPath id={"india-" + id}>{land.map((d, i) => <path key={i} d={d} transform={tf} />)}</clipPath></defs>
+      <g transform={tf}>{land.map((d, i) => <path key={i} d={d} fill="#2E7A4F" />)}</g>
       <g clipPath={`url(#india-${id})`}>
         {E(76.5, 30, 7, 4.5, GC.wheat, w)}{E(73, 23, 3.2, 3, GC.wheat, w)}
         {E(87.5, 23.5, 6, 4.5, GC.rice, r)}{E(93.5, 26, 4, 3, GC.rice, r)}{E(78.5, 11.5, 4.2, 4, GC.rice, r)}{E(83.5, 19.5, 3, 2.5, GC.rice, r)}
         {E(72.5, 26.3, 3.6, 3.2, GC.millet, m)}{E(76.4, 17, 3, 2.4, GC.millet, m)}
       </g>
-      <path d={d} fill="none" stroke={SK.cream} strokeWidth={5} strokeLinejoin="round" />
+      <g transform={tf}>{land.map((d, i) => <path key={i} d={d} fill="none" stroke={SK.cream} strokeWidth={(i ? 2.2 : 4) / s} strokeLinejoin="round" />)}</g>
       {children && children(P)}
     </SVG>
   );
@@ -275,11 +273,11 @@ function B2(ctx) {
 function B3(ctx) {
   return ({ localTime: lt, duration }) => {
     const cWhy = S("b3", 0), cCl = W("b3", "climate"), cSoil = W("b3", "soil"), cWater = W("b3", "water"), cGrow = W("b3", "grow", 1), cEat = W("b3", "eat");
-    const k = 26, mx = 60, my = 80, P = proj(mx, my, k);
+    const k = 26, mx = 60, my = 45, P = proj(mx, my, k);
     const rise = (a) => -50 * Easing.easeOutBack(reveal(lt, a, 0.7));
     const items = [
       { at: cCl, place: "rajasthan", Icon: Thermo, word: "CLIMATE", node: ["millet_bajra", "millets", 420, GC.millet] },
-      { at: cSoil, place: "punjab", Icon: SoilIcon, word: "SOIL", node: ["crop_wheat", "wheat", 200, GC.wheat] },
+      { at: cSoil, place: "punjab", Icon: SoilIcon, word: "SOIL", chipDx: 112, chipDy: -30, node: ["crop_wheat", "wheat", 200, GC.wheat] },
       { at: cWater, place: "tamilnadu", Icon: DropIcon, word: "WATER", node: ["crop_rice", "rice", 640, GC.rice] },
     ];
     return (
@@ -292,7 +290,7 @@ function B3(ctx) {
         {items.map((it) => { const [x, y] = P(PLACES[it.place]); const [slot, lab, ny, col] = it.node;
           return <React.Fragment key={it.word}>
             <SVG op={1}><Arr x1={x + 60} y1={y - 60} x2={1050} y2={ny} lt={lt} at={it.at + 0.4} /></SVG>
-            <Chip text={it.word} x={x} y={y + 18} lt={lt} at={it.at + 0.1} tone="gold" size={24} />
+            <Chip text={it.word} x={x + (it.chipDx || 0)} y={y + (it.chipDy == null ? 18 : it.chipDy)} lt={lt} at={it.at + 0.1} tone="gold" size={24} />
             <Node slot={slot} label={lab} x={1160} y={ny} r={72} lt={lt} at={it.at + 0.6} size={26} ring={col} />
           </React.Fragment>; })}
         <Card x={720} y={790} w={600} h={110} lt={lt} at={cGrow} pad={0}>
@@ -376,7 +374,7 @@ function B6(ctx) {
     const cWhole = W("b6", "whole"), cRice = W("b6", "rice"), cEast = W("b6", "east"), cSouth = W("b6", "south"), cWheat = W("b6", "wheat"), cNorth = W("b6", "north"),
       cWest = W("b6", "west"), cDry = W("b6", "dry"), cMil = W("b6", "millets"), cLess = W("b6", "less");
     const colour = { rice: out3(lt, cRice, 1.6), wheat: out3(lt, cWheat, 1.6), millet: out3(lt, cMil, 1.6) };
-    const mx = 60, my = 60, k = 27, P = proj(mx, my, k);
+    const mx = 60, my = 40, k = 27, P = proj(mx, my, k);
     const dish = (place, dx, dy) => { const [x, y] = P(PLACES[place]); return [x + dx, y + dy]; };
     const [ex, ey] = dish("bengal", 65, 125), [nx, ny] = dish("north", 60, -70), [rx, ry] = dish("rajasthan", 0, -10);
     const rows = [["rice", "RICE", "east and south", cRice], ["wheat", "WHEAT", "north and west", cWheat], ["millet", "MILLETS", "dry areas – need LESS water", cMil]];
@@ -447,7 +445,7 @@ function B7(ctx) {
           <Chip text="Our dry lands feed millions" x={1190} y={620} lt={lt} at={cDry + 0.2} tone="gold" size={26} />
         </div>
         {/* STOP 3: freeze on the coloured India map */}
-        <IndiaMap x={60} y={70} k={26} lt={lt} at={at - 0.3} op={1 - reveal(lt, breakAt, 0.3)} colour={{ rice: 1, wheat: 1, millet: 1 }} id="b7" />
+        <IndiaMap x={40} y={50} k={26} lt={lt} at={at - 0.3} op={1 - reveal(lt, breakAt, 0.3)} colour={{ rice: 1, wheat: 1, millet: 1 }} id="b7" />
         <StopBox lt={lt} b="b7" n={3} x={830} y={130} w={570} h={620}>
           <StopQ size={44}>Which grain does YOUR region eat most?</StopQ>
           <StopQ size={36}>Why do you think it grows there?</StopQ>
