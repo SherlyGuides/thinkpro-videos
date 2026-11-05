@@ -1,1 +1,1 @@
-window.TP_PHOTOS = {"hero_plough": "photos/hero_plough.jpg", "village_hill": "photos/village_hill.jpg", "farmer_rest": "photos/farmer_rest.jpg"};
+window.TP_PHOTOS = {"hero_plough": "photos/hero_plough.jpg", "village_hill": "photos/village_hill.jpg", "farmer_rest": "photos/farmer_rest.jpg", "dawn_bullocks": "photos/dawn_bullocks.jpg", "buffalo_work": "photos/buffalo_work.jpg", "camel_work": "photos/camel_work.jpg", "tractor_waits": "photos/tractor_waits.jpg", "small_farm": "photos/small_farm.jpg", "farmer_pats": "photos/farmer_pats.jpg", "leveller": "photos/leveller.jpg"};
