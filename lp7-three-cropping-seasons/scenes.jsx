@@ -453,16 +453,20 @@ function B6(ctx) {
     );
   };
 }
-// Simplified flat outline of India (approximate, for a teaching map), in a ~520 × 600 box.
-const INDIA = "M196 6 L232 22 L246 58 L232 84 L262 108 L300 132 L344 150 L388 164 L420 150 L454 140 L500 132 L512 160 L482 186 L470 214 L446 218 L430 196 L408 204 L404 234 L384 250 L366 246 L350 272 L326 300 L300 328 L282 360 L272 400 L262 440 L250 476 L232 516 L214 548 L196 520 L182 478 L170 432 L160 392 L146 350 L132 312 L124 282 L96 268 L66 262 L40 240 L24 214 L44 200 L72 200 L60 180 L84 156 L108 132 L132 108 L150 82 L164 50 L180 26 Z";
 // 7 · One country, many growing calendars → Stop 3 (wheat in great heat?)
+// Map: official-boundary outline + islands from india-map.js (copied from LP5).
+const MAP = window.LP5_MAP;
+if (!MAP) console.error("india-map.js missing");
+const proj = (lon, lat) => [(lon - MAP.lon0) * MAP.k * MAP.cos, (MAP.lat0 - lat) * MAP.k];
 function B7(ctx) {
-  const MX = 90, MY = 110, MS = 1.35;
-  const m = (x, y) => [MX + x * MS, MY + y * MS];
+  const MX = 90, MY = 48, MS = 0.96;
+  const m = (lon, lat) => { const [x, y] = proj(lon, lat); return [MX + x * MS, MY + y * MS]; };
   return ({ localTime: lt, duration }) => {
     const cBig = S("b7", 0), cNorth = W("b7", "north"), cSouth = W("b7", "south"), cDiff = W("b7", "different", 1), cRain = W("b7", "rain"), cOne = W("b7", "one"), cMany = W("b7", "many"), st = stopAt("b7");
-    const [nx, ny] = m(190, 150), south = [m(232, 470), m(262, 400), m(200, 440), m(244, 512)];
-    const calendars = [[m(120, 40), "rabi"], [m(470, 110), "kharif"], [m(30, 330), "zaid"], [m(330, 470), "kharif"], [m(390, 320), "rabi"]];
+    // lon/lat: Punjab–Haryana wheat belt; Kaveri delta, Godavari delta, Kuttanad, Mandya rice lands
+    const [nx, ny] = m(75.6, 30.4), south = [m(79.1, 10.8), m(81.8, 16.7), m(76.4, 9.5), m(76.9, 12.5)];
+    // calendars pop out over open ground and sea around the map, not on the marked regions
+    const calendars = [[m(69.4, 33.2), "rabi"], [m(90.0, 31.0), "kharif"], [m(69.0, 18.0), "zaid"], [m(86.0, 14.0), "kharif"], [m(88.5, 18.5), "rabi"]];
     const mapOut = st - 0.3;
     return (
       <Scene lt={lt} dur={duration} captions={CAPS.b7} showCaps={ctx.caps} capSize={ctx.capSize}
@@ -471,18 +475,19 @@ function B7(ctx) {
         <div style={{ position: "absolute", inset: 0, opacity: 1 - reveal(lt, mapOut, 0.5) }}>
           <SVG op={out3(lt, 0.2, 0.8)}>
             <g transform={`translate(${MX} ${MY}) scale(${MS})`}>
-              <path d={INDIA} fill="#2E7A4F" stroke={SK.cream} strokeWidth={4} strokeLinejoin="round" />
+              <path d={MAP.outline} fill="#2E7A4F" stroke={SK.cream} strokeWidth={4} strokeLinejoin="round" />
+              {MAP.islands.map((d, i) => <path key={i} d={d} fill="#2E7A4F" stroke={SK.cream} strokeWidth={2.5} strokeLinejoin="round" />)}
             </g>
             {/* north: a winter wheat field glows */}
             <g opacity={out3(lt, cNorth, 0.6)}>
-              <circle cx={nx} cy={ny} r={70 + 6 * Math.sin(lt * 3)} fill={SEA.rabi.c} opacity={0.45} /><circle cx={nx} cy={ny} r={18} fill={SK.gold} stroke={SK.ink} strokeWidth={3} />
-              <Icon kind="snow" x={nx + 60} y={ny - 50} s={0.9} />
+              <circle cx={nx} cy={ny} r={44 + 4 * Math.sin(lt * 3)} fill={SEA.rabi.c} opacity={0.45} /><circle cx={nx} cy={ny} r={18} fill={SK.gold} stroke={SK.ink} strokeWidth={3} />
+              <Icon kind="snow" x={nx + 44} y={ny - 34} s={0.9} />
             </g>
             {/* south: rice fields light up one after another, in different seasons */}
             {south.map(([x, y], i) => { const on = lt > cSouth ? (Math.floor((lt - cSouth) * 1.4) % south.length === i ? 1 : 0.25) : 0;
               const k = KEYS[i % 3];
-              return <g key={i} opacity={out3(lt, cSouth + i * 0.2, 0.4)}><circle cx={x} cy={y} r={30} fill={SEA[k].c} opacity={0.3 + 0.6 * on} /><circle cx={x} cy={y} r={10} fill={SK.leaf} stroke={SK.ink} strokeWidth={2} /></g>; })}
-            <T x={m(240, 300)[0]} y={m(240, 300)[1]} size={30} bold color={SK.cream} op={out3(lt, cBig, 0.6)}>INDIA</T>
+              return <g key={i} opacity={out3(lt, cSouth + i * 0.2, 0.4)}><circle cx={x} cy={y} r={24} fill={SEA[k].c} opacity={0.3 + 0.6 * on} /><circle cx={x} cy={y} r={10} fill={SK.leaf} stroke={SK.ink} strokeWidth={2} /></g>; })}
+            <T x={m(78.6, 22.6)[0]} y={m(78.6, 22.6)[1]} size={30} bold color={SK.cream} op={out3(lt, cBig, 0.6)}>INDIA</T>
           </SVG>
           {calendars.map(([[x, y], k], i) => { const o = pop(lt, cMany + i * 0.15, 0.5); if (o <= 0) return null;
             return <div key={i} style={{ position: "absolute", left: x - 55, top: y - 50, width: 110, height: 96, borderRadius: 12, background: SK.cream, opacity: o, transform: `scale(${o})`, boxShadow: "0 6px 16px rgba(0,0,0,0.35)", overflow: "hidden" }}>
