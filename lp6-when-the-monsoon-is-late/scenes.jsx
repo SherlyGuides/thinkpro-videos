@@ -225,15 +225,20 @@ function Calendar({ x, y, w = 380, h = 420, lt, at, month = "JUNE", next = "JULY
   );
 }
 
-// Simplified India outline (lon 68–97 E, lat 7–37 N) → map px; place(lon, lat).
-const IN = [[74, 35], [75.8, 36.4], [77.8, 35.5], [79, 34.4], [78.6, 32.6], [80.5, 30.6], [81.2, 30], [84, 28.6], [88, 27.9], [88.2, 26.6], [89.8, 26.7], [92, 27], [95, 28.3], [97, 27.8],
-  [96.2, 27], [95, 26], [94.6, 25], [93.4, 23.8], [92.6, 22], [92, 23.4], [91.5, 24], [91.9, 25.2], [90, 25.2], [89.8, 26], [88.5, 25.8], [88.8, 24.3], [88.7, 23], [89, 21.7], [87, 21.3],
-  [86.8, 20.5], [85, 19.5], [84, 18.3], [82.3, 16.8], [81, 15.8], [80.2, 15], [80.3, 13.3], [79.9, 11.5], [79.8, 10.3], [78.8, 9.3], [77.5, 8.1], [76.6, 8.9], [76, 10.5], [75.3, 12],
-  [74.6, 13.8], [73.9, 15.5], [73.2, 17.5], [72.9, 19.3], [72.8, 20.8], [72.6, 21.5], [70.5, 20.8], [69, 22.3], [70, 22.8], [68.6, 23.6], [68.4, 23.8], [70.3, 24.3], [71, 24.6],
-  [70.4, 25.8], [69.6, 27], [70.8, 27.9], [72, 28.4], [73.3, 29.9], [74.5, 31], [74.6, 32.3], [73.8, 33.2]];
-const MP = (lon, lat) => [(lon - 68) * 22, (37 - lat) * 22];     // 638 × 660 box
-const IN_PATH = "M" + IN.map(([a, b]) => MP(a, b).map((v) => v.toFixed(1)).join(" ")).join(" L ") + " Z";
-const KERALA = MP(76.3, 10.0), NWEST = MP(72.3, 27.6), SOHRA = MP(91.7, 25.3);
+// Official India outline (india-map.js, copied from LP5) → map px; proj(lon, lat).
+const MAP = window.LP5_MAP;
+if (!MAP) console.error("india-map.js missing");
+const proj = (lon, lat) => [(lon - MAP.lon0) * MAP.k * MAP.cos, (MAP.lat0 - lat) * MAP.k];
+const KERALA = proj(76.3, 10.0), NWEST = proj(72.3, 27.6), SOHRA = proj(91.7, 25.3);
+const LAND = (props) => <React.Fragment><path d={MAP.outline} {...props} />{MAP.islands.map((d, i) => <path key={i} d={d} {...props} />)}</React.Fragment>;
+// The monsoon front: latitude reached at each longitude, by days after 1 June (approx. IMD normal onset).
+const FRONT_LON = [68, 72, 76, 80, 84, 88, 92, 97];
+const FRONT = [[0, [5, 6, 10.5, 7, 7, 7, 7, 7]], [4, [8, 10, 14, 13, 13, 17, 25, 29]], [14, [17, 19.5, 21, 23, 26, 29, 31, 31]],
+  [30, [23, 25.5, 33, 35, 38, 38, 38, 38]], [35, [25, 27, 36, 38, 38, 38, 38, 38]], [37, [40, 40, 40, 40, 40, 40, 40, 40]]];
+function frontLats(day) {
+  const i = Math.max(0, FRONT.findIndex((f) => f[0] >= day) - 1), [d0, a] = FRONT[i], [d1, b] = FRONT[i + 1], t = clamp((day - d0) / (d1 - d0), 0, 1);
+  return a.map((v, k) => lerp(v, b[k], t));
+}
 function Pin({ at, lt, xy, label, sub, dx = 30, anchor = "start", color = SK.gold }) {
   const o = pop(lt, at, 0.6), pulse = 1 + 0.25 * Math.sin(lt * 5); if (o <= 0) return null;
   return (
@@ -247,19 +252,20 @@ function Pin({ at, lt, xy, label, sub, dx = 30, anchor = "start", color = SK.gol
 // India map with the monsoon front sweeping from the south-east tip to the north-west (p 0→1).
 function IndiaMap({ x, y, s = 1, lt, at, p = 0, children, op = 1 }) {
   const o = out3(lt, at, 0.8) * op; if (o <= 0) return null;
-  // the front: a line tilted so the east gets rain earlier; everything "below" it is wet
-  const fy = lerp(700, -60, p), tilt = -0.45;
-  const wet = `M -100 800 L 800 800 L 800 ${fy + tilt * 800} L -100 ${fy - tilt * 100} Z`;
-  const cl = Array.from({ length: 5 }, (_, i) => { const cx = 40 + i * 140; return [cx, fy + tilt * cx - 30]; });
+  // everything south of the front is wet
+  const lats = frontLats(p * 37);
+  const pts = [[60, lats[0]], ...FRONT_LON.map((lon, k) => [lon, lats[k]]), [105, lats[lats.length - 1]]].map(([a, b]) => proj(a, b));
+  const wet = `M ${pts.map((q) => q.map((v) => v.toFixed(1)).join(" ")).join(" L ")} L ${pts[pts.length - 1][0].toFixed(1)} ${MAP.h + 100} L ${pts[0][0].toFixed(1)} ${MAP.h + 100} Z`;
+  const cl = FRONT_LON.filter((lon) => lon > 70 && lon < 96 && lon % 8 === 0).map((lon) => [lon, lats[FRONT_LON.indexOf(lon)]]).filter(([, lat]) => lat > 8 && lat < 35.5).map(([lon, lat]) => proj(lon, lat));
   return (
     <SVG op={o}>
-      <defs><clipPath id="lp6-india"><path d={IN_PATH} /></clipPath></defs>
+      <defs><clipPath id="lp6-india"><path d={MAP.outline} />{MAP.islands.map((d, i) => <path key={i} d={d} />)}</clipPath></defs>
       <g transform={`translate(${x} ${y}) scale(${s})`}>
-        <path d={IN_PATH} fill="#B98A4E" stroke={SK.cream} strokeWidth={4} strokeLinejoin="round" />
+        <LAND fill="#B98A4E" />
         {p > 0 && <path d={wet} fill="#2E7A4F" clipPath="url(#lp6-india)" />}
         {p > 0 && <path d={wet} fill="#7FD3F7" opacity={0.25} clipPath="url(#lp6-india)" />}
-        <path d={IN_PATH} fill="none" stroke={SK.cream} strokeWidth={4} strokeLinejoin="round" />
-        {p > 0 && p < 1 && cl.filter(([, cy]) => cy > 70 && cy < 640).map(([cx, cy], i) => <Cloud key={i} x={cx} y={cy} s={0.5} dark rain={1} lt={lt} op={windowOp(p, 0, 0.98, 0.05)} />)}
+        <LAND fill="none" stroke={SK.cream} strokeWidth={3.5} strokeLinejoin="round" />
+        {p > 0 && p < 1 && cl.map(([cx, cy], i) => <Cloud key={i} x={cx} y={cy - 30} s={0.5} dark rain={1} lt={lt} op={windowOp(p, 0, 0.98, 0.05)} />)}
         {children}
       </g>
     </SVG>
@@ -390,7 +396,7 @@ function B2(ctx) {
         <Chip text="THE FARMING CALENDAR" x={cx} y={cy - R - 70} lt={lt} at={cMany} size={24} />
         {[["prepare fields", cPrep], ["sow seeds", cSow2], ["grow crops", cGrow]].map(([t, at], i) => <Chip key={t} text={t} x={320} y={510 + i * 64} lt={lt} at={at} tone="gold" size={28} />)}
         <Chip text="Monsoon rain helps farmers…" x={320} y={430} lt={lt} at={cMany} out={cPrep} size={26} />
-        <Tag text="LATE monsoon → calendar DISTURBED!" x={cx} y={cy + R + 20} lt={lt} at={cCal} size={28} />
+        <Tag text="LATE monsoon → calendar DISTURBED!" x={320} y={710} lt={lt} at={cCal} size={26} />
         <Chain lt={lt} at={cDist} />
       </Scene>
     );
@@ -530,9 +536,9 @@ function B6(ctx) {
           L("It reaches the far north-west of India around 8 JULY", cNW), L("More than 5 weeks to cross the country!", cFive, "big"),
           L("Normal dates (IMD); in a real year the monsoon can come earlier or later", cFive + 1.2, "source")])}>
         <Badge text="DO YOU KNOW?" x={60} y={70} lt={lt} at={cDyk} size={40} />
-        <IndiaMap x={70} y={150} s={1.06} lt={lt} at={0.3} p={p}>
+        <IndiaMap x={40} y={135} s={0.98} lt={lt} at={0.3} p={p}>
           <Pin lt={lt} at={cKer} xy={KERALA} label="Kerala" sub="≈ 1 June" dx={-30} anchor="end" />
-          <Pin lt={lt} at={cNW} xy={NWEST} label="Rajasthan" sub="≈ 8 July" dx={-30} anchor="end" />
+          <Pin lt={lt} at={cNW} xy={NWEST} label="Rajasthan" sub="≈ 8 July" />
         </IndiaMap>
         <div style={{ position: "absolute", left: 470, top: 72, opacity: windowOp(lt, cFirst + 0.2, duration + 1, 0.4), fontFamily: SERIF, fontWeight: 700, fontSize: 40, color: SK.white,
           background: "rgba(5,30,22,0.8)", padding: "8px 24px", borderRadius: 14 }}>{date} <span style={{ color: SK.gold, fontSize: 30 }}>· week {week}</span></div>
@@ -676,7 +682,7 @@ function B9(ctx) {
     const cWow = S("b9", 0), c1860 = W("b9", "1860"), cCherra = W("b9", "cherrapunji"), cMeg = W("b9", "meghalaya"), c26 = W("b9", "26"), cOne = W("b9", "one"), cTaller = W("b9", "taller"),
       cRec = W("b9", "world"), cMuch = W("b9", "much"), cLittle = W("b9", "little");
     const zoom = drive(lt, cCherra, cMeg + 0.8), level = drive(lt, c26 - 0.3, cTaller + 0.8);
-    const zs = lerp(0.85, 3.2, zoom), tx = lerp(60, 340 - SOHRA[0] * 3.2, zoom), ty = lerp(120, 330 - SOHRA[1] * 3.2, zoom);
+    const zs = lerp(0.68, 2.7, zoom), tx = lerp(100, 340 - SOHRA[0] * 2.7, zoom), ty = lerp(30, 330 - SOHRA[1] * 2.7, zoom);
     const sp = (i) => { const ph = (lt * 0.8 + i * 0.23) % 1; return [120 + i * 140 + 30 * Math.sin(i * 3 + lt), 120 + ((i * 97) % 300), Math.sin(ph * Math.PI)]; };
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[9]} showCaps={ctx.caps} capSize={ctx.capSize}
@@ -690,7 +696,7 @@ function B9(ctx) {
         <div style={{ position: "absolute", left: 40, top: 160, width: 700, height: 600, overflow: "hidden", borderRadius: 18, opacity: out3(lt, cWow, 0.6) * (1 - reveal(lt, cOne, 0.5)) }}>
           <svg width="700" height="600" viewBox="0 0 700 600">
             <g transform={`translate(${tx} ${ty}) scale(${zs})`}>
-              <path d={IN_PATH} fill="#2E7A4F" stroke={SK.cream} strokeWidth={4 / zs} strokeLinejoin="round" />
+              <LAND fill="#2E7A4F" stroke={SK.cream} strokeWidth={4 / zs} strokeLinejoin="round" />
               <g opacity={out3(lt, cCherra, 0.5)}><circle cx={SOHRA[0]} cy={SOHRA[1]} r={14 / zs * 1.6} fill={SK.gold} stroke={SK.ink} strokeWidth={3 / zs} /></g>
             </g>
             <text x={340} y={410} textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="40" fill={SK.gold} opacity={out3(lt, cMeg, 0.5)} stroke={SK.bgDeep} strokeWidth={6} paintOrder="stroke">Cherrapunji (Sohra)</text>
