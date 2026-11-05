@@ -1,0 +1,1 @@
+window.TP_PHOTOS = {"hero_plough": "photos/hero_plough.jpg", "iron_plough": "photos/iron_plough.jpg", "tool_machines": "photos/tool_machines.jpg", "village_hill": "photos/village_hill.jpg", "punjab_wheat": "photos/punjab_wheat.jpg", "farmer_waits": "photos/farmer_waits.jpg"};

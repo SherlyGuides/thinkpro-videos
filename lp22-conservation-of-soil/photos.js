@@ -1,0 +1,1 @@
+window.TP_PHOTOS = {"soil_erosion": "photos/soil_erosion.jpg", "soil_humus": "photos/soil_humus.jpg", "tea_garden": "photos/tea_garden.jpg", "sohra_rain": "photos/sohra_rain.jpg", "healthy_soil": "photos/healthy_soil.jpg", "tn_paddy": "photos/tn_paddy.jpg", "rainfed_village": "photos/rainfed_village.jpg"};
