@@ -275,16 +275,13 @@ function B4(ctx) {
   };
 }
 
-// ---- The INDIA MAP (central model for scenes 5, 6 and Stop 3). Approximate outline in lon/lat,
-// projected x = x0 + (lon − 68)·k, y = y0 + (37 − lat)·k. Pins stay once dropped.
-const OUTLINE = [[74.5, 37], [77.8, 35.5], [79.4, 32.5], [81, 30.2], [82, 27.9], [84, 27.4], [86, 26.6], [88, 26.4], [88.1, 27.9], [88.9, 27.3], [89.8, 26.7], [92, 26.8],
-  [92, 27.8], [94, 28.8], [96, 29.4], [97.4, 28.2], [96.2, 27.2], [95.2, 26], [94.6, 24.5], [93.4, 23.6], [92.6, 21.9], [92.2, 23.2], [91.6, 24.1], [92.2, 24.9], [90, 25.2],
-  [89.8, 25.9], [88.6, 25.2], [88.9, 24.2], [88.7, 23], [89, 21.7], [87.4, 21.6], [86.8, 21], [86.3, 20], [85, 19.3], [84, 18.2], [82.3, 16.6], [81.2, 15.8], [80.3, 15],
-  [80.2, 13.4], [79.9, 11.5], [79.8, 10.3], [79.2, 9.3], [78.2, 8.9], [77.5, 8.1], [76.6, 8.9], [76.2, 10], [75.6, 11.7], [74.8, 13], [74.3, 14.6], [73.6, 16.3], [72.9, 18.9],
-  [72.8, 20.4], [72.6, 21.1], [71, 20.8], [69.1, 22.3], [70.3, 22.9], [68.4, 23.6], [70, 24.2], [71.1, 24.6], [70.4, 25.7], [70, 27], [72, 28.4], [73.4, 29.9], [74.6, 31],
-  [74.5, 32.5], [74, 34.5], [73.8, 35.5]];
-const MAP = { x0: 680, y0: 96, k: 24 };
-const pj = (lon, lat) => [MAP.x0 + (lon - 68) * MAP.k, MAP.y0 + (37 - lat) * MAP.k];
+// ---- The INDIA MAP (central model for scenes 5, 6 and Stop 3). Official outline + islands from
+// india-map.js (copied from LP5, window.LP5_MAP), its own projection x = (lon − lon0)·k·cos,
+// y = (lat0 − lat)·k, fitted into the stage by FIT. Pins stay once dropped.
+const MAP = window.LP5_MAP;
+if (!MAP) console.error("india-map.js missing");
+const FIT = { x0: 700, y0: 50, s: 0.92 };
+const pj = (lon, lat) => [FIT.x0 + FIT.s * (lon - MAP.lon0) * MAP.k * MAP.cos, FIT.y0 + FIT.s * (MAP.lat0 - lat) * MAP.k];
 // [id, slot, festival, state, lon, lat, bubble dx, dy, beat, cue word, cue n]
 const PINS = [
   ["pongal", "pongal_pot", "Pongal", "Tamil Nadu", 78.6, 11.1, 150, 30, "b5", "pongal"],
@@ -298,11 +295,13 @@ const PINS = [
 // pinAt: id → beat-local time of the drop (−Infinity = already on the map from an earlier beat).
 function IndiaMap({ lt, at = 0, pinAt, hi = null, op = 1 }) {
   const o = out3(lt, at, 0.8) * op; if (o <= 0) return null;
-  const d = OUTLINE.map(([lo, la], i) => (i ? "L" : "M") + pj(lo, la).map((v) => v.toFixed(1)).join(" ")).join(" ") + " Z";
   return (
     <React.Fragment>
       <SVG op={o}>
-        <path d={d} fill="#2E7A4F" stroke={SK.cream} strokeWidth={4} strokeLinejoin="round" />
+        <g transform={`translate(${FIT.x0} ${FIT.y0}) scale(${FIT.s})`}>
+          <path d={MAP.outline} fill="#2E7A4F" stroke={SK.cream} strokeWidth={4 / FIT.s} strokeLinejoin="round" />
+          {MAP.islands.map((d, i) => <path key={i} d={d} fill="#2E7A4F" stroke={SK.cream} strokeWidth={2.2 / FIT.s} />)}
+        </g>
         <T x={pj(79.5, 22.5)[0]} y={pj(79.5, 22.5)[1]} size={34} bold color="rgba(246,241,227,0.55)" serif>INDIA</T>
         {PINS.map((p) => { const t = pinAt[p[0]]; if (t == null) return null;
           const [px, py] = pj(p[4], p[5]), bx = px + p[6], by = py + p[7], k = Easing.easeOutBack(reveal(lt, t, 0.6)), drop = (1 - bounce(reveal(lt, t, 0.7))) * -80;
