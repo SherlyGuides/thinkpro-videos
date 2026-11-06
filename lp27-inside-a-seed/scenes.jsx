@@ -1,5 +1,5 @@
 /* global React, window */
-// ThinkPro Academy — "Inside a Seed: A Tiny Plant Waiting to Wake Up!" (Grade 6 Agriculture, Session 26, V1).
+// ThinkPro Academy — "Inside a Seed: A Tiny Plant Waiting to Wake Up!" (Grade 6 Agriculture, Session 27, V1).
 // After AG_G6_S26 Video Script (Subrata, 5 Nov 2026): 11 script scenes = 11 voiced beats, three presenter
 // stops (TPStory.StopAt: the web player freezes, the export holds the card), one "Did you know?" run.
 // Central model: the seed as a TIFFIN BOX — box = seed coat, lunch = food store, traveller = embryo. The
@@ -14,7 +14,7 @@ const { SK, SERIF, SANS, LEFT_W, pop, out3, lerp, drive,
 
 // ---- Timing: EVERYTHING is keyed to the narration (tools/fit_timing.py → timing.js).
 const TM = window.TP_TIMING;
-if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp26-inside-a-seed");
+if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp27-inside-a-seed");
 const LEAD = TM ? TM.lead : 1.0;
 const DUR = TM ? TM.total : 280;
 const BEAT = (id) => TM.beats[id];
@@ -44,9 +44,9 @@ const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const mix = (a, b, t) => { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], t))).join(",")})`; };
 
 // ---- Panel copy. Title defaults mirror the DC data-props (titleNText) — keep in sync. ----
-const TITLES = { 1: "LP26 – Inside a Seed", 2: "A seed = a survival kit", 3: "1. Seed coat", 4: "2. Food store", 5: "3. Embryo", 6: "Label it",
+const TITLES = { 1: "LP27 – Inside a Seed", 2: "A seed = a survival kit", 3: "1. Seed coat", 4: "2. Food store", 5: "3. Embryo", 6: "Label it",
   7: "Germination begins", 8: "Root first, shoot next", 9: "Put in order", 10: "Did you know?", 11: "Quick check" };
-const KICK = "Grade 6 · Agriculture · Session 26";
+const KICK = "Grade 6 · Agriculture · Session 27";
 const KICKS = { 10: "Did you know?" };
 const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title: ctx.titles[n], lines, ...extra });
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
@@ -766,7 +766,7 @@ function Lp26Scenes(props = {}) {
   const B = [B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11];
   const beats = B.map((Bn, i) => { const t = BEAT("b" + (i + 1)); return [t.start, t.start + t.dur, Bn]; });
   return (
-    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp26-inside-a-seed" collage={COLLAGE}>
+    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp27-inside-a-seed" collage={COLLAGE}>
       {beats.map(([s, e, Bn], i) => (
         <Sprite key={i} start={s} end={e}>{Bn(ctx)}</Sprite>
       ))}

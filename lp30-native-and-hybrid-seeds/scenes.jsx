@@ -1,5 +1,5 @@
 /* global React, window */
-// ThinkPro Academy — "Native and Hybrid Seeds: Tradition vs Technology!" (Grade 6 Agriculture, Session 29, V1).
+// ThinkPro Academy — "Native and Hybrid Seeds: Tradition vs Technology!" (Grade 6 Agriculture, Session 30, V1).
 // After AG_G6_S29 Video Script (Subrata, 5 Nov 2026): 12 script scenes as 12 voiced beats, three presenter stops
 // (TPStory.StopAt: a countdown dial runs through each hold, web and export alike), one Did-you-know card (b10, chime).
 // Running idea: two seed characters, DESI (native, cloth pouch) and HYBRI (hybrid, shiny packet), neither a villain.
@@ -13,11 +13,11 @@ const { SK, SERIF, SANS, LEFT_W, pop, out3, lerp, drive,
 
 // ---- SESSION NUMBER. The script assumes 29 and it may be renumbered. To change it: edit SESSION here, and
 // title1Text in Video.dc.html (the defs block AND data-props, which override TITLES below).
-const SESSION = 29;
+const SESSION = 30;
 
 // ---- Timing: EVERYTHING is keyed to the narration (tools/fit_timing.py → timing.js).
 const TM = window.TP_TIMING;
-if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp29-native-and-hybrid-seeds");
+if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp30-native-and-hybrid-seeds");
 const LEAD = TM ? TM.lead : 1.0;
 const DUR = TM ? TM.total : 260;
 const BEAT = (id) => TM.beats[id];
@@ -609,7 +609,7 @@ function Lp29Scenes(props = {}) {
   const B = [B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12];
   const beats = B.map((Bn, i) => { const t = BEAT("b" + (i + 1)); return [t.start, t.start + t.dur, Bn]; });
   return (
-    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp29-native-and-hybrid-seeds" collage={COLLAGE}>
+    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp30-native-and-hybrid-seeds" collage={COLLAGE}>
       {beats.map(([s, e, Bn], i) => (
         <Sprite key={i} start={s} end={e}>{Bn(ctx)}</Sprite>
       ))}

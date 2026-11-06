@@ -1,5 +1,5 @@
 /* global React, window */
-// ThinkPro Academy — "Types of Seeds: Monocots and Dicots" (Grade 6 Agriculture, Session 27, V1).
+// ThinkPro Academy — "Types of Seeds: Monocots and Dicots" (Grade 6 Agriculture, Session 28, V1).
 // After AG_G6_S27 Video Script (Subrata, 5 Nov 2026): 11 script scenes as 11 voiced beats, three presenter stops
 // (TPStory.StopAt: the web player freezes, the export holds the card), one Did-you-know card (b9, chime).
 // Running idea: Seed Detectives. Central model: the CLUE BOARD at the foot of the panel, which fills cell by
@@ -13,7 +13,7 @@ const { SK, SERIF, SANS, LEFT_W, pop, out3, lerp, drive,
 
 // ---- Timing: EVERYTHING is keyed to the narration (tools/fit_timing.py → timing.js).
 const TM = window.TP_TIMING;
-if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp27-types-of-seeds-monocots-and-dicots");
+if (!TM) console.error("timing.js missing — run: python3 tools/fit_timing.py videos/lp28-types-of-seeds-monocots-and-dicots");
 const LEAD = TM ? TM.lead : 1.0;
 const DUR = TM ? TM.total : 220;
 const BEAT = (id) => TM.beats[id];
@@ -41,9 +41,9 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const rnd = (i) => { const x = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return x - Math.floor(x); };
 
 // ---- Panel copy. Title defaults mirror the DC data-props (titleNText) — keep in sync. ----
-const TITLES = { 1: "LP27 – Types of Seeds: Monocots and Dicots", 2: "Clue 1: Cotyledons", 3: "Monocots", 4: "Dicots", 5: "Look around", 6: "The experiment",
+const TITLES = { 1: "LP28 – Types of Seeds: Monocots and Dicots", 2: "Clue 1: Cotyledons", 3: "Monocots", 4: "Dicots", 5: "Look around", 6: "The experiment",
   7: "What we find", 8: "Clue board", 9: "Did you know?", 10: "The big idea", 11: "Quick check" };
-const KICK = "Grade 6 · Agriculture · Session 27";
+const KICK = "Grade 6 · Agriculture · Session 28";
 const KICKS = { 5: "Seed Detectives", 6: "Seed Detectives", 7: "Seed Detectives", 8: "Seed Detectives", 9: "Seed Detectives", 10: "Seed Detectives", 11: "Seed Detectives" };
 const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title: ctx.titles[n], lines, ...extra });
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
@@ -649,7 +649,7 @@ function Lp27Scenes(props = {}) {
   const B = [B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11];
   const beats = B.map((Bn, i) => { const t = BEAT("b" + (i + 1)); return [t.start, t.start + t.dur, Bn]; });
   return (
-    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp27-types-of-seeds-monocots-and-dicots" collage={COLLAGE}>
+    <StoryFrame props={props} dur={DUR} persistKey="thinkpro-lp28-types-of-seeds-monocots-and-dicots" collage={COLLAGE}>
       {beats.map(([s, e, Bn], i) => (
         <Sprite key={i} start={s} end={e}>{Bn(ctx)}</Sprite>
       ))}

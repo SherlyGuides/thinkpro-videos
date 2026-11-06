@@ -1,5 +1,5 @@
 /* global React, window */
-// ThinkPro Academy — "Seed Treatment: Giving Seeds a Healthy Head Start!" (Grade 6 Agriculture, Session 28, V1).
+// ThinkPro Academy — "Seed Treatment: Giving Seeds a Healthy Head Start!" (Grade 6 Agriculture, Session 29, V1).
 // After AG_G6_S28 Video Script (Subrata, 5 Nov 2026): 11 script scenes as 11 voiced beats, three presenter stops
 // (TPStory.StopAt: the built-in countdown dial runs during the hold), one Did-you-know card (b10, chime).
 // Running idea: SEED SHIELD. Each treatment adds a glowing shield round a seed. The seed and shields are DRAWN here,
@@ -14,8 +14,8 @@ const { SK, SERIF, SANS, LEFT_W, pop, out3, lerp, drive, photoSrc,
   Pic, Chip, Badge, Big, Card, SVG, Arrow, T, ChimeAt, Scene, StoryFrame, StopAt } = window.TPStory;
 
 // ---- Session number: change it HERE (and title1Text in Video.dc.html, defs + data-props). --------
-const SESSION = 28;
-const SLUG = "lp28-seed-treatment";
+const SESSION = 29;
+const SLUG = "lp29-seed-treatment";
 
 // ---- Timing: EVERYTHING is keyed to the narration (tools/fit_timing.py → timing.js).
 const TM = window.TP_TIMING;
