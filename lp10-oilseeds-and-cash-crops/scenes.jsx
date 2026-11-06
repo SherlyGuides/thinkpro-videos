@@ -49,7 +49,7 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
 // b7's pauseAfter is 7.6 s = the 5 s stop + the 2.6 s leaf break (script scene 8).
-const STOPS = [["b1", 6, 5.0], ["b3", 6, 6.0], ["b7", 8, 5.0], ["b10", 5, 8.0]];
+const STOPS = [["b1", 6, 15.0], ["b3", 6, 15.0], ["b7", 8, 15.0], ["b10", 5, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 const holdOf = (b) => stopFor(b)[2] - 0.2;
@@ -382,7 +382,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 function B7(ctx) {
   return ({ localTime: lt, duration }) => {
     const cCane = W("b7", "sugarcane"), cWarm = W("b7", "warmth"), cFert = W("b7", "fertile"), cLots = W("b7", "lots"), cWhy = W("b7", "why"), cVery = W("b7", "very"),
-      cMonths = W("b7", "months"), cThirsty = W("b7", "thirsty"), cPlenty = W("b7", "plenty"), cCanals = W("b7", "canals"), at = stopStart("b7"), hold = holdOf("b7"), brk = at + 5.0;
+      cMonths = W("b7", "months"), cThirsty = W("b7", "thirsty"), cPlenty = W("b7", "plenty"), cCanals = W("b7", "canals"), at = stopStart("b7"), hold = holdOf("b7"), brk = at + 15.0;
     const months = clamp((lt - cVery) / 0.45, 0, 11.99), mi = Math.floor(months), tall = 0.25 + 0.75 * clamp((lt - cVery) / 5.4, 0, 1);
     const flow = windowOp(lt, cThirsty, at, 0.4);
     const main = 1 - reveal(lt, at - 0.4, 0.4);
@@ -612,7 +612,7 @@ function OilScenes(props = {}) {
         <Sprite key={i} start={s} end={e}>{Bn(ctx)}</Sprite>
       ))}
       {STOPS.map(([b, i, hold]) => <StopAt key={b} t={BEAT(b).start + stopAt(b, i)} hold={hold - 0.2} />)}
-      <ChimeAt t={BEAT("b7").start + stopStart("b7") + 6.6} />
+      <ChimeAt t={BEAT("b7").start + stopStart("b7") + 16.6} />
       <AudioSync />
     </StoryFrame>
   );

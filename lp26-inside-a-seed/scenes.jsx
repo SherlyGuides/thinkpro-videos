@@ -52,7 +52,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title:
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b6", 2, 5.0], ["b9", 1, 5.0], ["b11", 3, 7.0]];
+const STOPS = [["b6", 2, 15.0], ["b9", 1, 15.0], ["b11", 3, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 // A slim stop bar across the top of the photo area, so the frozen picture stays in view.

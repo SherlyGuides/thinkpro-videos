@@ -64,7 +64,7 @@ function Dyk({ lt, at, n, y = 822 }) {
 }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b5", 1, 5.0], ["b10", 1, 5.0], ["b15", 0, 5.0]];
+const STOPS = [["b5", 1, 15.0], ["b10", 1, 15.0], ["b15", 0, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 

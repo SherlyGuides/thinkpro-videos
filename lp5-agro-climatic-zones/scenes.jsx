@@ -50,7 +50,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title:
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b1", 3, 4.0], ["b3", 4, 4.0], ["b10", 0, 4.0], ["b11", 3, 6.0]];
+const STOPS = [["b1", 3, 15.0], ["b3", 4, 15.0], ["b10", 0, 15.0], ["b11", 3, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 const stopN = (b) => STOPS.indexOf(stopFor(b)) + 1;

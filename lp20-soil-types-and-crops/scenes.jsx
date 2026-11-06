@@ -51,7 +51,7 @@ const F = (label, value, at) => ({ at, kind: "plain", text: <span style={{ displ
   <span style={{ display: "block", fontFamily: SANS, fontWeight: 700, fontSize: 18, letterSpacing: "0.12em", color: SK.goldDeep }}>{label}</span>{value}</span> });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b5", 3, 6.0], ["b6", 5, 5.0], ["b11", 5, 8.0]];
+const STOPS = [["b5", 3, 15.0], ["b6", 5, 15.0], ["b11", 5, 15.0]];
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 const stopStart = (b) => SE(b, stopFor(b)[1]) + 0.1;           // beat-local start of the hold
 const holdOf = (b) => stopFor(b)[2] - 0.2;

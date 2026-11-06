@@ -52,10 +52,10 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter holds the stop, hold s, heading, question]
 const STOPS = [
-  ["b1", 4, 5.0, "PAUSE AND DISCUSS", "Name a festival your family celebrates. Is it linked to a harvest?"],
-  ["b3", 2, 5.0, "HAVE YOU UNDERSTOOD?", "What three things does a crop calendar show?"],
-  ["b6", 2, 5.0, "MATCH IT!", "Pongal · Baisakhi · Onam · Bihu · Nuakhai – which state?"],
-  ["b10", 2, 8.0, "QUICK CHECK", null],
+  ["b1", 4, 15.0, "PAUSE AND DISCUSS", "Name a festival your family celebrates. Is it linked to a harvest?"],
+  ["b3", 2, 15.0, "HAVE YOU UNDERSTOOD?", "What three things does a crop calendar show?"],
+  ["b6", 2, 15.0, "MATCH IT!", "Pongal · Baisakhi · Onam · Bihu · Nuakhai – which state?"],
+  ["b10", 2, 15.0, "QUICK CHECK", null],
 ];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
@@ -378,7 +378,7 @@ function B6(ctx) {
         <Chip text="wheat harvest" x={340} y={480} lt={lt} at={cWheat} out={cOn - 0.1} tone="gold" size={26} />
         <Chip text={"7 festivals on the map!"} x={340} y={80} lt={lt} at={st} size={32} tone="gold" />
         <MiniStop lt={lt} b="b6" side />
-        <Break lt={lt} at={st + 5.0} dur={2.4} />
+        <Break lt={lt} at={st + 15.0} dur={2.4} />
       </Scene>
     );
   };
@@ -517,7 +517,7 @@ function B9(ctx) {
 function B10(ctx) {
   return ({ localTime: lt, duration }) => {
     const cQ = S("b10", 0), cBec = S("b10", 1), cWork = W("b10", "work"), cGift = W("b10", "gift"), cTog = W("b10", "together"), cNext = S("b10", 2), cThank = W("b10", "thank");
-    const st = stopAt("b10", 2), hold = 8.0 - 0.2, qo = windowOp(lt, st, st + hold + 0.6, 0.35);
+    const st = stopAt("b10", 2), hold = 14.8, qo = windowOp(lt, st, st + hold + 0.6, 0.35);
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[10]} showCaps={ctx.caps} capSize={ctx.capSize}
         panel={panel(10, ctx, [L("Festivals come at harvest time to celebrate:", cBec, "head"), L("hard work", cWork), L("fresh food and nature's gifts", cGift),
@@ -580,7 +580,7 @@ function CalFestScenes(props = {}) {
         <Sprite key={i} start={s} end={e}>{Bn(ctx)}</Sprite>
       ))}
       {STOPS.map(([b, i, hold]) => <StopAt key={b} t={BEAT(b).start + stopAt(b, i)} hold={hold - 0.2} />)}
-      <ChimeAt t={BEAT("b6").start + stopAt("b6", 2) + 5.3} />
+      <ChimeAt t={BEAT("b6").start + stopAt("b6", 2) + 15.3} />
       {["b7", "b8"].map((b) => <ChimeAt key={b} t={BEAT(b).start + S(b, 0, 0)} />)}
       <AudioSync />
     </StoryFrame>

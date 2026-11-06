@@ -49,7 +49,7 @@ const YES = (t, at) => L("✔ " + t, at, "plain");
 const NO = (t, at) => L("✘ " + t, at, "plain");
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b6", 2, 6.0], ["b8", 3, 8.0], ["b11", 3, 7.0]];
+const STOPS = [["b6", 2, 15.0], ["b8", 3, 15.0], ["b11", 3, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 const holdOf = (b) => stopFor(b)[2] - 0.2;

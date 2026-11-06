@@ -48,7 +48,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title:
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b1", 3, 5.0], ["b5", 3, 6.0], ["b6", 2, 8.0], ["b10", 4, 7.0], ["b11", 5, 9.0]];
+const STOPS = [["b1", 3, 15.0], ["b5", 3, 15.0], ["b6", 2, 15.0], ["b10", 4, 15.0], ["b11", 5, 15.0]];
 const QUICK = ["Give two advantages of traditional tools.", "Give two disadvantages of modern machines.", "How do small farmers use machines without buying them?",
   "How long would one person take to loosen a 10 m × 10 m field at 5 minutes per square metre?", "When is a hand tool better than a machine?"];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold

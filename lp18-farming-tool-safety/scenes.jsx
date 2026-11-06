@@ -53,11 +53,11 @@ const L = (text, at, kind = "big", extra = {}) => ({ text, at, kind, ...extra })
 // ---- Presenter stops. pre = silent seconds before the stop inside the same pauseAfter; hold = the stop itself.
 // (b7's pauseAfter of 12 s is the wrong way 3 s + stop 6 s + break 3 s.)
 const STOPS = [
-  { b: "b1", pre: 0, hold: 5 },
-  { b: "b6", pre: 0, hold: 9 },
-  { b: "b7", pre: 3, hold: 6 },
-  { b: "b8", pre: 0, hold: 7 },
-  { b: "b10", pre: 0, hold: 9 },
+  { b: "b1", pre: 0, hold: 15 },
+  { b: "b6", pre: 0, hold: 15 },
+  { b: "b7", pre: 3, hold: 15 },
+  { b: "b8", pre: 0, hold: 15 },
+  { b: "b10", pre: 0, hold: 15 },
 ];
 const stopFor = (b) => STOPS.find((s) => s.b === b);
 const stopAt = (b) => SE(b, LAST(b)) + 0.1 + stopFor(b).pre;       // beat-local start of the stop

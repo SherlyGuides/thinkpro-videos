@@ -49,7 +49,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title:
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b1", 3, 5.0], ["b3", 4, 6.0], ["b6", 2, 4.4], ["b9", 2, 8.0]];
+const STOPS = [["b1", 3, 15.0], ["b3", 4, 15.0], ["b6", 2, 15.0], ["b9", 2, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 function Discuss({ lt, at, hold, n, x = 40, y = 60, w = LEFT_W - 80, h = 400, head = "PAUSE AND DISCUSS", q, q2, items, size = 46, bg = 0.92 }) {

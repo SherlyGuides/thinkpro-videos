@@ -47,11 +47,11 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 1, 4.0, "No shops, no farms – how would you get your food every day?"],
-  ["b3", 3, 4.0, "What problem would you face if you ate only wild fruits? Why did hunters keep moving?"],
-  ["b5", 2, 4.0, "What did people need to learn before they could farm?"],
-  ["b8", 2, 4.0, "Why is drip irrigation smart?"],
-  ["b9", 2, 6.0, null],   // quick check card
+  ["b1", 1, 15.0, "No shops, no farms – how would you get your food every day?"],
+  ["b3", 3, 15.0, "What problem would you face if you ate only wild fruits? Why did hunters keep moving?"],
+  ["b5", 2, 15.0, "What did people need to learn before they could farm?"],
+  ["b8", 2, 15.0, "Why is drip irrigation smart?"],
+  ["b9", 2, 15.0, null],   // quick check card
 ];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);

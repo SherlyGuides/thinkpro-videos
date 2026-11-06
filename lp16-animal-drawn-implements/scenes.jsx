@@ -53,10 +53,10 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 4, 5.0, "Have you ever seen animals working on a farm? What were they doing?"],
-  ["b4", 3, 6.0, "What do the plough, the leveller and the Persian wheel each do?"],
-  ["b7", 1, 5.0, "Give two reasons a farmer might choose bullocks instead of a tractor."],   // + 2.6 s leaf break
-  ["b10", 4, 8.0, null],   // quick check card
+  ["b1", 4, 15.0, "Have you ever seen animals working on a farm? What were they doing?"],
+  ["b4", 3, 15.0, "What do the plough, the leveller and the Persian wheel each do?"],
+  ["b7", 1, 15.0, "Give two reasons a farmer might choose bullocks instead of a tractor."],   // + 2.6 s leaf break
+  ["b10", 4, 15.0, null],   // quick check card
 ];
 const QUICK = ["Name three animals that help Indian farmers.", "What does a bullock-drawn plough do?", "How does the Persian wheel lift water?",
   "Give two reasons animal power is still useful.", "Which animal ploughs fields in the Himalayas?"];
@@ -659,9 +659,9 @@ function B6(ctx) {
 function B7(ctx) {
   return ({ localTime: lt, duration }) => {
     const cBig = W("b7", "big"), cNarrow = W("b7", "narrow"), cSteep = W("b7", "steep"), cMuddy = W("b7", "muddy"), cBut = S("b7", 1), cAnimals = W("b7", "animals");
-    const stop = stopAt("b7", 1), breakAt = stop + 5.05;
+    const stop = stopAt("b7", 1), breakAt = stop + 15.05;
     const tk = drive(lt, cBig - 0.4, cMuddy), tX = lerp(-280, 400, tk), sink = out3(lt, cMuddy + 0.1, 1.4), spin = lt * 9;
-    const gy = 790, s = 0.82, px = lerp(-100, 900, drive(lt, cBut - 0.6, stop + 5)), bx = px + 240, walking = lt > cBut - 0.6;
+    const gy = 790, s = 0.82, px = lerp(-100, 900, drive(lt, cBut - 0.6, stop + 15)), bx = px + 240, walking = lt > cBut - 0.6;
     const [hx, hy] = hitchOf(bx, gy + 12, s);
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[7]} showCaps={ctx.caps} capSize={ctx.capSize}

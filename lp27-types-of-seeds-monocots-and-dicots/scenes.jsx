@@ -49,7 +49,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICKS[n] || KICK, title:
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b5", 3, 5.0], ["b6", 4, 5.0], ["b11", 3, 6.0]];
+const STOPS = [["b5", 3, 15.0], ["b6", 4, 15.0], ["b11", 3, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 // The kit's StopCard fills the photo area. These stops freeze ON a picture (the two leaves, the knife
@@ -595,7 +595,7 @@ function B11(ctx) {
   return ({ localTime: lt, duration }) => {
     const q1 = S("b11", 1), q2 = S("b11", 2), q3 = S("b11", 3), stop = stopAt("b11", 3), a1 = S("b11", 4), a2 = S("b11", 5), a3 = S("b11", 6), cC = S("b11", 7);
     const rows = [["RICE: monocot or dicot?", q1, "mono", "MONOCOT", a1], ["GRAM: monocot or dicot?", q2, "di", "DICOT", a2], ["A leaf with net-like veins belongs to a…?", q3, "di", "DICOT", a3]];
-    const hold = windowOp(lt, stop, stop + 5.8, 0.3);
+    const hold = windowOp(lt, stop, stop + 14.8, 0.3);
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[11]} showCaps={ctx.caps} capSize={ctx.capSize}
         panel={panel(11, ctx, [L("1. Monocot or dicot: RICE?", q1), L("2. Monocot or dicot: GRAM?", q2), L("3. A leaf with net-like veins belongs to a…?", q3)])}>

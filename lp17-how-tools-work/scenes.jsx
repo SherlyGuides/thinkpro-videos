@@ -256,11 +256,11 @@ function ToolCard({ x, y, w, h, lt, at, out, kind, tx, ty, s = 1, r = 0, name, n
 
 // Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 3, 5.0, "Pick one shape. What job do you think it does?"],
-  ["b7", 2, 5.2, null],   // shapes-to-jobs card; the remaining 2.8 s of that pause is the visual break
-  ["b8", 7, 7.0, null],   // spot the mistake (the drawn lab picture)
-  ["b10", 3, 6.0, null],  // try it
-  ["b11", 4, 7.5, null],  // quick check card
+  ["b1", 3, 15.0, "Pick one shape. What job do you think it does?"],
+  ["b7", 2, 15.0, null],   // shapes-to-jobs card; the remaining 2.8 s of that pause is the visual break
+  ["b8", 7, 15.0, null],   // spot the mistake (the drawn lab picture)
+  ["b10", 3, 15.0, null],  // try it
+  ["b11", 4, 15.0, null],  // quick check card
 ];
 const QUICK = ["What do a sharp edge, a scoop and teeth each do?", "Why does a watering can have a rose?", "Which way should the working end point when you carry a tool?",
   "Who must be with you when you use a cutting tool?", "What do you do with a tool after use?"];

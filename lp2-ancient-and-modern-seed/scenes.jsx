@@ -46,11 +46,11 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 1, 4.0, "Why keep some of this year's best seeds instead of eating them all?"],
-  ["b3", 1, 4.0, "Why would a farmer keep the best seeds instead of eating them?"],
-  ["b5", 2, 4.0, "Why are millets important again today?"],
-  ["b7", 3, 4.0, "Team sort: 8 cards – native or hybrid? Then write three seed-saving steps."],
-  ["b8", 2, 6.0, null],   // quick check card
+  ["b1", 1, 15.0, "Why keep some of this year's best seeds instead of eating them all?"],
+  ["b3", 1, 15.0, "Why would a farmer keep the best seeds instead of eating them?"],
+  ["b5", 2, 15.0, "Why are millets important again today?"],
+  ["b7", 3, 15.0, "Team sort: 8 cards – native or hybrid? Then write three seed-saving steps."],
+  ["b8", 2, 15.0, null],   // quick check card
 ];
 const stopAt = (b, i) => SE(b, i) + 0.1;
 const stopFor = (b) => STOPS.find((s) => s[0] === b);

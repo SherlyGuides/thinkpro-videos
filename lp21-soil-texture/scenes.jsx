@@ -51,9 +51,9 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 // ---- Presenter stops: [beat, sentence whose pauseAfter holds it, stop s, heading, question].
 // b5 and b8 hold longer than the stop: the rest of the silence plays the answer.
 const STOPS = [
-  ["b5", 3, 5.0, "PREDICT", "Which glass fills FIRST? Which fills LAST?"],
-  ["b8", 5, 5.0, "FEEL TEST", "Which soil is which?"],
-  ["b11", 1, 6.0, "QUICK CHECK", "Which soil suits each crop?"],
+  ["b5", 3, 15.0, "PREDICT", "Which glass fills FIRST? Which fills LAST?"],
+  ["b8", 5, 15.0, "FEEL TEST", "Which soil is which?"],
+  ["b11", 1, 15.0, "QUICK CHECK", "Which soil suits each crop?"],
 ];
 const stopAt = (b, i) => SE(b, i) + 0.1;
 const stopFor = (b) => STOPS.find((s) => s[0] === b);

@@ -51,10 +51,10 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 3, 4.0, "Which field will give more crop? Make a guess."],
-  ["b4", 4, 4.0, "Name the four old methods. Which one have you seen?"],
-  ["b7", 3, 4.0, "Why does giving water at the roots save water?"],
-  ["b9", 3, 6.0, null],   // quick check card
+  ["b1", 3, 15.0, "Which field will give more crop? Make a guess."],
+  ["b4", 4, 15.0, "Name the four old methods. Which one have you seen?"],
+  ["b7", 3, 15.0, "Why does giving water at the roots save water?"],
+  ["b9", 3, 15.0, null],   // quick check card
 ];
 const QUICK = ["What is broadcasting?", "What is mixed cropping?", "Why is line sowing better than scattering?", "How does drip irrigation save water?", "Name one old idea that is still the best."];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold

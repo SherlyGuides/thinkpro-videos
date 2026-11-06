@@ -55,11 +55,11 @@ const TH = 2.0;
 // ---- Presenter stops: [beat, sentence index, offset after the sentence, hold s, heading, question(s), card box]
 const FULL = { x: 40, y: 60, w: LEFT_W - 80, h: 900 };
 const STOPS = [
-  ["b1", 5, TH + 0.1, 5.0, "Pause and discuss", ["What happens to your farming plans? Share one idea."], { x: 640, y: 60, w: 760, h: 640 }],
-  ["b3", 4, 0.1, 5.0, "Have you understood?", ["Why can't a farmer sow seeds in very dry soil?"], { x: 40, y: 40, w: LEFT_W - 80, h: 250 }],
-  ["b6", 3, 0.4, 5.0, "Pause and discuss", ["A farmer in Kerala and a farmer in Rajasthan both wait for the monsoon.", "Who waits longer, and why?"], { x: 780, y: 60, w: 620, h: 760 }],
-  ["b8", 3, 0.4, 5.0, "Have you understood?", ["Read the chain from late rain to less income.", "Where could the farmer break the chain?"], { x: 40, y: 60, w: LEFT_W - 80, h: 760 }],
-  ["b11", 1, 0.4, 7.0, "Quick check", ["Why can't seeds be sown in dry soil?", "Name two ways to get extra water. Are they free?", "What happens to young plants when rain is too little?",
+  ["b1", 5, TH + 0.1, 15.0, "Pause and discuss", ["What happens to your farming plans? Share one idea."], { x: 640, y: 60, w: 760, h: 640 }],
+  ["b3", 4, 0.1, 15.0, "Have you understood?", ["Why can't a farmer sow seeds in very dry soil?"], { x: 40, y: 40, w: LEFT_W - 80, h: 250 }],
+  ["b6", 3, 0.4, 15.0, "Pause and discuss", ["A farmer in Kerala and a farmer in Rajasthan both wait for the monsoon.", "Who waits longer, and why?"], { x: 780, y: 60, w: 620, h: 760 }],
+  ["b8", 3, 0.4, 15.0, "Have you understood?", ["Read the chain from late rain to less income.", "Where could the farmer break the chain?"], { x: 40, y: 60, w: LEFT_W - 80, h: 760 }],
+  ["b11", 1, 0.4, 15.0, "Quick check", ["Why can't seeds be sown in dry soil?", "Name two ways to get extra water. Are they free?", "What happens to young plants when rain is too little?",
     "Name two crops that need less water.", "Why does the timing of the monsoon matter?"], FULL],
 ];
 const stopFor = (b) => STOPS.find((s) => s[0] === b);

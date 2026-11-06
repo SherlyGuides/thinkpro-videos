@@ -49,7 +49,7 @@ const panel = (n, ctx, lines, extra = {}) => ({ kicker: KICK, title: ctx.titles[
 const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra });
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b5", 2, 5.0], ["b9", 2, 6.0]];
+const STOPS = [["b5", 2, 15.0], ["b9", 2, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;
 
 // Stop card placed beside the picture (the kit's StopCard covers the whole photo area).
@@ -521,7 +521,7 @@ function B5(ctx) {
         <Tag text="HARD, PACKED SOIL" x={190} y={68} lt={lt} at={0.5} size={28} />
         <Chip text="LOOSE SOIL" x={920} y={68} lt={lt} at={0.7} tone="gold" size={28} />
         <Chip text="Quick stop!" x={720} y={620} lt={lt} at={0.3} out={st - 0.2} tone="gold" size={52} />
-        <Discuss lt={lt} at={st} hold={4.8} n={1} q="Why would roots struggle in hard soil?" size={56} />
+        <Discuss lt={lt} at={st} hold={14.8} n={1} q="Why would roots struggle in hard soil?" size={56} />
         <Check lt={lt} y={COMPACT_Y} done={[-1, -1, null, null, null]} />
       </Scene>
     );
@@ -632,7 +632,7 @@ function B9(ctx) {
         <Chip text="Floods after rain" x={320} y={70} lt={lt} at={cF + 0.3} size={32} />
         <Chip text="Puddles here, dry there" x={1010} y={70} lt={lt} at={cP + 0.3} size={32} />
         <Q x={330} at={cF} /><Q x={1020} at={cP} />
-        <Discuss lt={lt} at={st} hold={5.8} n={2} head="WHICH STEP?" q="Which step helps each field?" size={56} y={510} h={420} />
+        <Discuss lt={lt} at={st} hold={14.8} n={2} head="WHICH STEP?" q="Which step helps each field?" size={56} y={510} h={420} />
         <Check lt={lt} y={COMPACT_Y} done={[-1, -1, -1, -1, -1]} />
       </Scene>
     );

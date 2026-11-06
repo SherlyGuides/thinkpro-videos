@@ -51,11 +51,11 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s, question]
 const STOPS = [
-  ["b1", 3, 4.0, "Make a guess. Write it down."],
-  ["b4", 2, 4.0, "Which tool loosened the soil, and which one cut the crops?"],
-  ["b6", 3, 4.0, "Why was letting oxen pull the plough such a big change?"],
-  ["b8", 4, 4.0, "Put the five steps in order, from oldest to newest."],
-  ["b9", 7, 6.0, null],   // quick check card
+  ["b1", 3, 15.0, "Make a guess. Write it down."],
+  ["b4", 2, 15.0, "Which tool loosened the soil, and which one cut the crops?"],
+  ["b6", 3, 15.0, "Why was letting oxen pull the plough such a big change?"],
+  ["b8", 4, 15.0, "Put the five steps in order, from oldest to newest."],
+  ["b9", 7, 15.0, null],   // quick check card
 ];
 const QUICK = ["What was the first farming tool?", "What did a hoe do, and what did a sickle do?", "Why was the wooden plough a big change?",
   "Why were iron tools better?", "Name one tool still used today."];

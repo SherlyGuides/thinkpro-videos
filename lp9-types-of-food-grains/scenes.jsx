@@ -53,7 +53,7 @@ const GC = { rice: "#F4F1E6", wheat: "#E2B04C", millet: "#C8743A", pulse: "#6FBF
 const GINK = { rice: "#9C9682", wheat: "#9E7320", millet: "#7E4220", pulse: "#3E7E3D", maize: "#A88A12" };
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter is the hold, hold s]
-const STOPS = [["b1", 3, 5.0], ["b2", 4, 6.0], ["b7", 2, 5.0], ["b10", 3, 7.5]];
+const STOPS = [["b1", 3, 15.0], ["b2", 4, 15.0], ["b7", 2, 15.0], ["b10", 3, 15.0]];
 const stopAt = (b, i) => SE(b, i) + 0.1;                       // beat-local start of the hold
 const stopFor = (b) => STOPS.find((s) => s[0] === b);
 const stopStart = (b) => stopAt(b, stopFor(b)[1]);

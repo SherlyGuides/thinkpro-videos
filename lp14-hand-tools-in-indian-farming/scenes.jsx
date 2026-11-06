@@ -51,10 +51,10 @@ const L = (text, at, kind = "item", extra = {}) => ({ text, at, kind, ...extra }
 
 // ---- Presenter stops: [beat, sentence index whose pauseAfter holds it, hold s, question]
 const STOPS = [
-  ["b1", 6, 5.0, "Why might a farmer choose the khurpi? Make a guess."],
-  ["b3", 12, 6.0, "Match each tool to its job:"],
-  ["b5", 5, 6.0, "Compare the khurpi and the tractor. Which is better for a small vegetable garden? Why?"],
-  ["b9", 8, 8.0, null],   // quick check card
+  ["b1", 6, 15.0, "Why might a farmer choose the khurpi? Make a guess."],
+  ["b3", 12, 15.0, "Match each tool to its job:"],
+  ["b5", 5, 15.0, "Compare the khurpi and the tractor. Which is better for a small vegetable garden? Why?"],
+  ["b9", 8, 15.0, null],   // quick check card
 ];
 const QUICK = ["Name four hand tools and their jobs.", "Where are hand tools better than machines?", "Give two reasons hand tools are useful.",
   "Which Japanese tool looks like the Indian sickle?", "Why do you think farmers far apart made similar tools?"];
