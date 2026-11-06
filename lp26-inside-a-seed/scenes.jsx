@@ -61,10 +61,10 @@ function StopBar({ lt, b, head, y = 44 }) {
   const o = windowOp(lt, at, at + hold + 0.4, 0.35); if (o <= 0) return null;
   return (
     <div style={{ position: "absolute", left: 40, top: y, width: LEFT_W - 80, height: 104, borderRadius: 20, background: "rgba(5,30,22,0.92)", opacity: o, zIndex: 3,
-      boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", display: "flex", alignItems: "center", gap: 22, padding: "0 28px", boxSizing: "border-box" }}>
+      boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", display: "flex", alignItems: "center", gap: 22, padding: "0 170px 0 28px", boxSizing: "border-box" }}>
       <svg width="60" height="60" viewBox="0 0 90 90"><circle cx="45" cy="45" r="43" fill={SK.gold} /><rect x="28" y="24" width="12" height="42" rx="4" fill={SK.ink} /><rect x="50" y="24" width="12" height="42" rx="4" fill={SK.ink} /></svg>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 38, letterSpacing: "0.04em", color: SK.white, whiteSpace: "nowrap" }}>{head}</div>
-      <div style={{ marginLeft: "auto", fontFamily: SANS, fontSize: 25, color: SK.dim, whiteSpace: "nowrap" }}>Stop {n} of {STOPS.length} · press play to continue</div>
+      <div style={{ marginLeft: "auto", fontFamily: SANS, fontSize: 25, color: SK.dim, whiteSpace: "nowrap" }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }
@@ -728,7 +728,7 @@ function B11(ctx) {
                 </div>
               </div>
             ); })}
-            <div style={{ position: "absolute", right: 40, top: 66, fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: hint }}>Stop 3 of 3 · press play to continue</div>
+            <div style={{ position: "absolute", right: 40, top: 66, fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: hint }}>Stop 3 of 3</div>
           </div>}
         </div>
       </Scene>

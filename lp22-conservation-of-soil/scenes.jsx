@@ -69,7 +69,7 @@ function StopStrip({ lt, b, heading, question, top = 640, height = 300, left = 4
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 32, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "8px 28px", borderRadius: 14 }}>{heading}</div>
       </div>
       {question && <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 50, lineHeight: 1.18, color: SK.white, marginTop: 20 }}>{question}</div>}
-      <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim, marginTop: 16 }}>Stop {n} of {STOPS.length} · press play to continue</div>
+      <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim, marginTop: 16 }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }

@@ -65,7 +65,7 @@ function StopBand({ lt, b, heading, children, y = 670, h = 280 }) {
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "7px 24px", borderRadius: 12 }}>{heading}</div>
       </div>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 46, lineHeight: 1.18, color: SK.white, marginTop: 20 }}>{children}</div>
-      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop {n} of {STOPS.length} · press play to continue</div>
+      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }
@@ -611,7 +611,7 @@ function B11(ctx) {
                 <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 50, lineHeight: 1.15, color: SK.white, whiteSpace: "nowrap" }}>{q}</span></div>
               <Group kind={kind} x={68} y={100} lt={lt} at={at} size={42} text={ans} />
             </div>; })}
-          <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, textAlign: "center", fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: hold }}>Stop 3 of {STOPS.length} · press play to continue</div>
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: 28, textAlign: "center", fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: hold }}>Stop 3 of {STOPS.length}</div>
         </div>
         <Stamp text="CASE CLOSED" x={1000} y={815} lt={lt} at={cC} size={80} />
       </Scene>

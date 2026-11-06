@@ -231,9 +231,7 @@ function TimeProbe() {
 
 // ---- Presenter stops ----------------------------------------------------------------
 // StopCard: "Pause and discuss" card over the photo area during a silent hold (a
-// sentence's pauseAfter). StopAt: on the web player, really freeze the timeline when
-// the playhead reaches the stop; when the teacher presses play, skip the rest of the
-// hold. The export (frame-by-frame seeks) just shows the card for the hold.
+// sentence's pauseAfter). StopAt: the countdown dial for that hold.
 function StopCard({ lt, at, hold, question, n, total, op = 1 }) {
   const o = windowOp(lt, at, at + hold, 0.35) * op;
   if (o <= 0) return null;
@@ -242,27 +240,30 @@ function StopCard({ lt, at, hold, question, n, total, op = 1 }) {
       boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 80, boxSizing: "border-box", textAlign: "center" }}>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 30, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "10px 30px", borderRadius: 14 }}>PAUSE AND DISCUSS</div>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 56, lineHeight: 1.2, color: SK.white, marginTop: 44, maxWidth: 1100 }}>{question}</div>
-      <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim, marginTop: 50 }}>{n && total ? `Stop ${n} of ${total} · ` : ""}press play to continue</div>
+      {n && total ? <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim, marginTop: 50 }}>Stop {n} of {total}</div> : null}
     </div>
   );
 }
+// Every stop runs a built-in countdown for its hold, so the rendered MP4 and the web copy
+// behave alike: nothing freezes and nobody has to press play. The dial sits in one fixed spot,
+// top right of the photo area, and is drawn from the playhead so export frames are exact.
 function StopAt({ t, hold }) {
   const tl = window.useTimeline();
-  const st = React.useRef({ last: null, armed: true });
-  React.useEffect(() => {
-    if (window.TP_AUTOSTOP === false) return;
-    const playing = tl.playing || tl.extPlaying, prev = st.current.last; st.current.last = tl.time;
-    if (tl.time < t - 1 || tl.time > t + hold + 1) { st.current.armed = true; return; }
-    if (playing && st.current.armed && prev != null && prev < t && tl.time >= t) {
-      st.current.armed = false; tl.setTime(t + 0.1);
-      // Pause through the player's own key handler (same path as the teacher's space bar) — a
-      // bare setPlaying(false) from here was ignored on hosted copies in a background tab.
-      window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space", bubbles: true }));
-      return;
-    }
-    if (playing && !st.current.armed && tl.time >= t && tl.time < t + hold - 0.5) tl.setTime(t + hold - 0.45);
-  }, [tl.time, tl.playing, tl.extPlaying]);
-  return null;
+  const left = t + hold - tl.time;
+  if (left <= 0 || left > hold) return null;
+  const R = 50, C = 2 * Math.PI * R, o = Math.min(1, (hold - left) / 0.3, left / 0.3);
+  return (
+    <div data-tp-countdown={Math.ceil(left)} style={{ position: "absolute", left: 1262, top: 34, width: 140, height: 140, opacity: o, zIndex: 40 }}>
+      <svg width="140" height="140" viewBox="0 0 140 140" style={{ position: "absolute", inset: 0 }}>
+        <circle cx="70" cy="70" r="66" fill="rgba(5,30,22,0.92)" />
+        <circle cx="70" cy="70" r={R} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="10" />
+        <circle cx="70" cy="70" r={R} fill="none" stroke={SK.gold} strokeWidth="10" strokeLinecap="round"
+          strokeDasharray={`${C * (left / hold)} ${C}`} transform="rotate(-90 70 70)" />
+      </svg>
+      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        fontFamily: SANS, fontWeight: 700, fontSize: 56, lineHeight: 1, color: SK.white }}>{Math.ceil(left)}</div>
+    </div>
+  );
 }
 // Visual break: the stage fades to plain green and a leaf wipes across (before a Do-you-know card).
 function Break({ lt, at, dur = 2.5 }) {

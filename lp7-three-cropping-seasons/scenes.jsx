@@ -207,12 +207,7 @@ function Discuss({ lt, at, hold, n, x = 40, y = 60, w = LEFT_W - 80, h = 400, he
       {items && items.map((it, i) => <div key={i} style={{ display: "flex", gap: 20, marginTop: i ? 14 : 26, fontFamily: SERIF, fontWeight: 700, fontSize: 36, lineHeight: 1.2, color: SK.white }}>
         <span style={{ color: SK.gold, width: 34, flex: "none" }}>{i + 1}</span><span>{it}</span></div>)}
       {children}
-      <div style={{ position: "absolute", left: 52, bottom: 26, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 4 · press play to continue</div>
-      <svg width="110" height="110" viewBox="0 0 110 110" style={{ position: "absolute", right: 30, bottom: 20 }}>
-        <circle cx="55" cy="55" r="46" stroke="rgba(255,255,255,0.3)" strokeWidth="7" fill="none" />
-        <circle cx="55" cy="55" r="46" stroke={SK.gold} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray={`${C * (1 - p)} ${C}`} transform="rotate(-90 55 55)" />
-        <text x="55" y="72" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="46" fill={SK.white}>{Math.max(1, Math.ceil(hold * (1 - p)))}</text>
-      </svg>
+      <div style={{ position: "absolute", left: 52, bottom: 26, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 4</div>
     </div>
   );
 }

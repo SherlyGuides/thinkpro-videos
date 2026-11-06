@@ -68,7 +68,7 @@ function StopBox({ lt, b, heading = "PAUSE AND DISCUSS", question, qSize = 52, c
       </div>
       {question && <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: qSize, lineHeight: 1.2, color: SK.white, marginTop: 26, maxWidth: 1220 }}>{question}</div>}
       {children}
-      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 24 }}>Stop {n} of {STOPS.length} · press play to continue</div>
+      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 24 }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }

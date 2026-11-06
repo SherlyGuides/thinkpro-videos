@@ -75,13 +75,9 @@ function MiniStop({ lt, b, side = false }) {
       <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: side ? "wrap" : "nowrap", maxWidth: side ? 420 : "none" }}>
         <svg width="60" height="60" viewBox="0 0 90 90"><circle cx="45" cy="45" r="43" fill={SK.gold} /><rect x="28" y="24" width="12" height="42" rx="4" fill={SK.ink} /><rect x="50" y="24" width="12" height="42" rx="4" fill={SK.ink} /></svg>
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "8px 24px", borderRadius: 12 }}>{s[3]}</div>
-        <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length} · press play to continue</div>
+        <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length}</div>
       </div>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: side ? 46 : 44, lineHeight: 1.2, color: SK.white, marginTop: side ? 40 : 22, maxWidth: 1130 }}>{side ? s[4].split(" – ").map((x, i) => <div key={i} style={i ? { color: SK.gold, marginTop: 24 } : null}>{x}</div>) : s[4]}</div>
-      <svg width="100" height="100" viewBox="0 0 100 100" style={{ position: "absolute", right: 30, top: 24 }}>
-        <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.3)" strokeWidth="7" fill="none" />
-        <circle cx="50" cy="50" r="40" stroke={SK.gold} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray={`${C * (1 - p)} ${C}`} transform="rotate(-90 50 50)" />
-      </svg>
     </div>
   );
 }
@@ -538,7 +534,7 @@ function B10(ctx) {
           boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", padding: "50px 80px", boxSizing: "border-box" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 32, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "10px 30px", borderRadius: 14 }}>QUICK CHECK</div>
-            <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop 4 of 4 · press play to finish</div>
+            <div style={{ fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop 4 of 4</div>
           </div>
           {QUICK.map((q, i) => <div key={i} style={{ display: "flex", gap: 24, alignItems: "baseline", marginTop: i ? 26 : 50, opacity: out3(lt, st + 0.2 + i * 0.25, 0.5) }}>
             <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 44, color: SK.gold, width: 40 }}>{i + 1}</span>

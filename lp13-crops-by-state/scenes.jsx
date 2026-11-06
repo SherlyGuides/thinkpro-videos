@@ -65,7 +65,7 @@ function Discuss({ lt, at, hold, n, x = 40, y = 60, w = LEFT_W - 80, h = 400, he
       {q2 && <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: size * 0.8, lineHeight: 1.2, color: SK.gold, marginTop: 20 }}>{q2}</div>}
       {items && items.map((it, i) => <div key={i} style={{ display: "flex", gap: 20, marginTop: i ? 30 : 44, fontFamily: SERIF, fontWeight: 700, fontSize: 46, lineHeight: 1.2, color: SK.white }}>
         <span style={{ color: SK.gold, width: 34, flex: "none" }}>{i + 1}</span><span>{it}</span></div>)}
-      <div style={{ position: "absolute", left: 46, bottom: 20, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 4 · press play to continue</div>
+      <div style={{ position: "absolute", left: 46, bottom: 20, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 4</div>
     </div>
   );
 }

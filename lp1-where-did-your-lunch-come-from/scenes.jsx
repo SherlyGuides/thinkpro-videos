@@ -169,13 +169,7 @@ function PauseCard({ lt, at, hold, heading, items, n, children }) {
         <span style={{ flex: "none", fontFamily: SERIF, fontWeight: 700, fontSize: 40, color: SK.gold, width: 50 }}>{i + 1}</span>
         <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 42, color: SK.white, lineHeight: 1.22, background: "rgba(255,255,255,0.08)", padding: "10px 26px", borderRadius: 18 }}>{it.text}</span></div>)}
       {children}
-      <div style={{ position: "absolute", left: 80, bottom: 44, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Pause point {n} of 3 · press play to continue</div>
-      {lt >= at - 0.2 && lt <= at + hold + 0.3 && (
-        <svg width="140" height="140" viewBox="0 0 140 140" style={{ position: "absolute", right: 60, bottom: 30 }}>
-          <circle cx="70" cy="70" r="58" stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none" />
-          <circle cx="70" cy="70" r="58" stroke={SK.gold} strokeWidth="8" fill="none" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 58 * (1 - clamp((lt - at) / hold, 0, 1))} ${2 * Math.PI * 58}`} transform="rotate(-90 70 70)" />
-          <text x="70" y="90" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="60" fill={SK.white}>{tick}</text>
-        </svg>)}
+      <div style={{ position: "absolute", left: 80, bottom: 44, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Pause point {n} of 3</div>
     </div>
   );
 }
@@ -303,7 +297,7 @@ function B5(ctx) {
     const q1 = W("b5", "collect"), q2 = W("b5", "three"), at = stopAt("b5", 1);
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[5]} showCaps={ctx.caps} capSize={ctx.capSize}
-        panel={panel(5, ctx, [L("Pause the video. Tell your partner:", S("b5", 0)), L("1 What did gatherers collect?", q1), L("2 Three uses of fire?", q2), L("Press play when you are ready.", at, "think")])}>
+        panel={panel(5, ctx, [L("Tell your partner:", S("b5", 0)), L("1 What did gatherers collect?", q1), L("2 Three uses of fire?", q2), L("Think it over now.", at, "think")])}>
         <PauseCard lt={lt} at={at} hold={stopFor("b5")[2] - 0.2} heading="Have you understood?" n={1}
           items={[{ text: "What did gatherers collect?", at: q1 }, { text: "What three things did fire do for hunters?", at: q2 }]} />
       </Scene>
@@ -447,7 +441,7 @@ function B10(ctx) {
     const q1 = W("b10", "four"), q2 = S("b10", 1), at = stopAt("b10", 1);
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[10]} showCaps={ctx.caps} capSize={ctx.capSize}
-        panel={panel(10, ctx, [L("1 The four things a farmer needs", q1), L("2 Why save seeds?", q2), L("Press play when you are ready.", at, "think")])}>
+        panel={panel(10, ctx, [L("1 The four things a farmer needs", q1), L("2 Why save seeds?", q2), L("Think it over now.", at, "think")])}>
         <PauseCard lt={lt} at={at} hold={stopFor("b10")[2] - 0.2} heading="Do you get it?" n={2}
           items={[{ text: "Name the FOUR things every farmer needs", at: q1 }, { text: "Why save seeds?", at: q2 }]}>
           <div style={{ display: "flex", gap: 30, marginTop: 40, marginLeft: 74 }}>
@@ -649,7 +643,7 @@ function B15(ctx) {
     const at = stopAt("b15", 0), cOrder = W("b15", "put");
     return (
       <Scene lt={lt} dur={duration} captions={CAPS[15]} showCaps={ctx.caps} capSize={ctx.capSize}
-        panel={panel(15, ctx, [L("Put these in order, from RAIN to DRIP:", cOrder), L("pump · rain · Persian wheel · drip · carrying by hand · channels", cOrder + 0.3, "sub"), L("Press play when you are ready.", at, "think")])}>
+        panel={panel(15, ctx, [L("Put these in order, from RAIN to DRIP:", cOrder), L("pump · rain · Persian wheel · drip · carrying by hand · channels", cOrder + 0.3, "sub"), L("Think it over now.", at, "think")])}>
         <PauseCard lt={lt} at={at} hold={stopFor("b15")[2] - 0.2} heading="Have you understood?" n={3} items={[{ text: "Put these in order – from RAIN… to DRIP!", at: cOrder }]}>
           {tiles.map(([s, lab, x, y, rot], i) => <div key={s} style={{ position: "absolute", left: x, top: y, transform: `rotate(${rot}deg)`, opacity: pop(lt, cOrder + 0.4 + i * 0.12, 0.5) }}>
             <Pic slot={s} label={lab} x={0} y={0} w={240} h={160} lt={lt} at={cOrder + 0.4 + i * 0.12} fx="pop" r={14} />

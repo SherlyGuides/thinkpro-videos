@@ -65,7 +65,7 @@ function StopBar({ lt, b, x, y, w, h, heading, children, size = 44 }) {
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "6px 22px", borderRadius: 12 }}>{heading}</div>
       </div>
       <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: size, lineHeight: 1.18, color: SK.white, marginTop: 18 }}>{children}</div>
-      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop {n} of {STOPS.length} · press play to continue</div>
+      <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }
@@ -502,7 +502,7 @@ function B11(ctx) {
         <div style={{ position: "absolute", left: 40, top: 60, width: 1360, height: 840, borderRadius: 18, background: "rgba(5,30,22,0.8)", boxShadow: "0 0 0 3px rgba(226,176,76,0.9)", opacity: out3(lt, 0.2, 0.5) }} />
         <div style={{ position: "absolute", left: 90, top: 90, display: "flex", alignItems: "center", gap: 18, opacity: out3(lt, S("b11", 0), 0.5) }}>
           <PauseIcon s={64} /><div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 32, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "8px 26px", borderRadius: 12 }}>QUICK CHECK</div></div>
-        <div style={{ position: "absolute", left: 620, top: 112, fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: holdOp }}>Stop 3 of 3 · press play to continue</div>
+        <div style={{ position: "absolute", left: 620, top: 112, fontFamily: SANS, fontSize: 26, color: SK.dim, opacity: holdOp }}>Stop 3 of 3</div>
         {rows.map(([q, a], i) => { const y = 190 + i * 185, o = out3(lt, qs[i], 0.5), ao = pop(lt, ans[i], 0.5); if (o <= 0) return null;
           return <div key={i} style={{ position: "absolute", left: 90, top: y, width: 1270, opacity: o, transform: `translateY(${(1 - o) * 12}px)` }}>
             <div style={{ display: "flex", gap: 20, alignItems: "baseline", fontFamily: SERIF, fontWeight: 700, fontSize: 44, lineHeight: 1.18, color: SK.white, whiteSpace: "nowrap" }}><span style={{ color: SK.gold }}>{i + 1}</span><span>{q}</span></div>

@@ -226,18 +226,8 @@ function Frame({ id, op = 1, children }) {
     </SVG>
   );
 }
-// Countdown ring shown during a presenter hold.
-function Count({ lt, at, hold, x, y }) {
-  if (lt < at - 0.2 || lt > at + hold + 0.3) return null;
-  const p = clamp((lt - at) / hold, 0, 1), n = Math.max(1, Math.ceil(hold * (1 - p)));
-  return (
-    <svg width="110" height="110" viewBox="0 0 130 130" style={{ position: "absolute", left: x, top: y }}>
-      <circle cx="65" cy="65" r="54" stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none" />
-      <circle cx="65" cy="65" r="54" stroke={SK.gold} strokeWidth="8" fill="none" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 54 * (1 - p)} ${2 * Math.PI * 54}`} transform="rotate(-90 65 65)" />
-      <text x="65" y="85" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="56" fill={SK.white}>{n}</text>
-    </svg>
-  );
-}
+// The countdown now comes from StopAt in engine/story-kit.jsx.
+const Count = () => null;
 // Compact pause bar: leaves the picture visible behind the question.
 function StopBar({ lt, at, hold, text, n, x = 70, y = 64, w = 1300 }) {
   const o = windowOp(lt, at - 0.3, at + hold + 0.4, 0.35); if (o <= 0) return null;
@@ -247,7 +237,7 @@ function StopBar({ lt, at, hold, text, n, x = 70, y = 64, w = 1300 }) {
       <svg width="84" height="84" viewBox="0 0 90 90" style={{ flex: "none" }}><circle cx="45" cy="45" r="43" fill={SK.gold} /><rect x="28" y="24" width="12" height="42" rx="4" fill={SK.ink} /><rect x="50" y="24" width="12" height="42" rx="4" fill={SK.ink} /></svg>
       <div style={{ flex: 1 }}>
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 40, lineHeight: 1.12, color: SK.white }}>{text}</div>
-        <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 6 }}>Stop {n} of 3 · press play to continue</div>
+        <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 6 }}>Stop {n} of 3</div>
       </div>
       <div style={{ position: "relative", width: 110, height: 110, flex: "none" }}><Count lt={lt} at={at} hold={hold} x={0} y={0} /></div>
     </div>
@@ -721,7 +711,7 @@ function B11(ctx) {
         {lt > at - 0.3 && lt < at + hold + 0.4 && <div style={{ position: "absolute", left: 1030, top: 680, width: 270, textAlign: "center", opacity: windowOp(lt, at - 0.3, at + hold + 0.4, 0.35) }}>
           <div style={{ position: "relative", height: 116 }}><Count lt={lt} at={at} hold={hold} x={80} y={0} /></div>
           <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 36, color: SK.gold }}>Which soil?</div>
-          <div style={{ fontFamily: SANS, fontSize: 23, color: SK.dim, lineHeight: 1.15, marginTop: 4 }}>Stop 3 of 3 · press play to continue</div>
+          <div style={{ fontFamily: SANS, fontSize: 23, color: SK.dim, lineHeight: 1.15, marginTop: 4 }}>Stop 3 of 3</div>
         </div>}
         <Pic slot="soil_hand" label="A farmer's hand scooping up soil" x={FX} y={FY} w={FW} h={FH} lt={lt} at={cNext} fx="zoom" kenDur={8} />
         <Big x={70} y={760} w={1300} size={72} align="center" lt={lt} at={cGrow - 0.2}>What can it GROW?</Big>

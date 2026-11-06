@@ -140,13 +140,7 @@ function StopCard({ lt, b }) {
       {qs.map((q, i) => <div key={i} style={{ display: "flex", gap: 18, marginTop: compact ? 20 : (i === 0 ? 40 : many ? 18 : 24) }}>
         {many && <span style={{ flex: "none", fontFamily: SERIF, fontWeight: 700, fontSize: 38, color: SK.gold, width: 40 }}>{i + 1}</span>}
         <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: compact ? 46 : many ? 38 : 48, color: SK.white, lineHeight: 1.2 }}>{q}</span></div>)}
-      <div style={{ position: "absolute", left: compact ? 50 : 60, bottom: compact ? 16 : 34, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length} · press play to continue</div>
-      {lt >= at - 0.2 && lt <= at + hold + 0.3 && (
-        <svg width="120" height="120" viewBox="0 0 140 140" style={{ position: "absolute", right: 40, bottom: compact ? 60 : 30 }}>
-          <circle cx="70" cy="70" r="58" stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none" />
-          <circle cx="70" cy="70" r="58" stroke={SK.gold} strokeWidth="8" fill="none" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 58 * (1 - p)} ${2 * Math.PI * 58}`} transform="rotate(-90 70 70)" />
-          <text x="70" y="90" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="60" fill={SK.white}>{tick}</text>
-        </svg>)}
+      <div style={{ position: "absolute", left: compact ? 50 : 60, bottom: compact ? 16 : 34, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }

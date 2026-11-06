@@ -70,7 +70,7 @@ function StopBand({ lt, b }) {
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
           <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "6px 22px", borderRadius: 12 }}>{s[3]}</span>
-          <span style={{ fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length} · press play to continue</span>
+          <span style={{ fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length}</span>
         </div>
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 50, lineHeight: 1.15, color: SK.white, marginTop: 14, whiteSpace: "nowrap" }}>{s[4]}</div>
       </div>

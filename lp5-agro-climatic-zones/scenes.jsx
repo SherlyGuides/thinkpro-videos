@@ -502,7 +502,7 @@ function MatchStop({ lt, at, hold }) {
         return <div key={slot} style={{ position: "absolute", left: i === 4 ? 155 : cx, top: cy, width: 210, transform: `rotate(${rot}deg)`, background: SK.cream, borderRadius: 14, padding: 8, boxShadow: "0 8px 20px rgba(0,0,0,0.4)" }}>
           <div style={{ height: 110, borderRadius: 10, overflow: "hidden", background: SK.bgDeep }}>{photoSrc(slot) && <img src={photoSrc(slot)} alt={lab} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}</div>
           <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 26, color: SK.ink, textAlign: "center", marginTop: 4 }}>{lab}</div></div>; })}
-      <div style={{ position: "absolute", left: 34, bottom: 26, fontFamily: SANS, fontSize: 22, color: SK.dim }}>Stop 3 of {STOPS.length} · press play to continue</div>
+      <div style={{ position: "absolute", left: 34, bottom: 26, fontFamily: SANS, fontSize: 22, color: SK.dim }}>Stop 3 of {STOPS.length}</div>
     </div>
   );
 }
@@ -536,7 +536,7 @@ function QuickStop({ lt, at, hold }) {
       {QUICK.map((q, i) => <div key={i} style={{ display: "flex", gap: 24, alignItems: "center", marginTop: i === 0 ? 46 : 20, opacity: out3(lt, at + 0.2 + i * 0.25, 0.5) }}>
         <span style={{ flex: "none", fontFamily: SERIF, fontWeight: 700, fontSize: 44, color: SK.gold, width: 50 }}>{i + 1}</span>
         <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 42, color: SK.white, background: "rgba(255,255,255,0.08)", padding: "10px 26px", borderRadius: 18 }}>{q}</span></div>)}
-      <div style={{ position: "absolute", left: 80, bottom: 40, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop {STOPS.length} of {STOPS.length} · compare with your guesses from the start · press play to finish</div>
+      <div style={{ position: "absolute", left: 80, bottom: 40, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop {STOPS.length} of {STOPS.length} · compare with your guesses from the start</div>
     </div>
   );
 }

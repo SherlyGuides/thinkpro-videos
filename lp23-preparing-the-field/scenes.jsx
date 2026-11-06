@@ -65,12 +65,7 @@ function Discuss({ lt, at, hold, n, x = 40, y = 560, w = LEFT_W - 80, h = 370, h
       </div>
       {q && <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: size, lineHeight: 1.2, color: SK.white, marginTop: 24 }}>{q}</div>}
       {children}
-      <div style={{ position: "absolute", left: 52, bottom: 24, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length} · press play to continue</div>
-      <svg width="110" height="110" viewBox="0 0 110 110" style={{ position: "absolute", right: 30, bottom: 20 }}>
-        <circle cx="55" cy="55" r="46" stroke="rgba(255,255,255,0.3)" strokeWidth="7" fill="none" />
-        <circle cx="55" cy="55" r="46" stroke={SK.gold} strokeWidth="7" fill="none" strokeLinecap="round" strokeDasharray={`${C * (1 - p)} ${C}`} transform="rotate(-90 55 55)" />
-        <text x="55" y="72" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="46" fill={SK.white}>{Math.max(1, Math.ceil(hold * (1 - p)))}</text>
-      </svg>
+      <div style={{ position: "absolute", left: 52, bottom: 24, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of {STOPS.length}</div>
     </div>
   );
 }

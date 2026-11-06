@@ -64,8 +64,7 @@ function PauseMark({ size = 64 }) {
 // Thin "press play" strip for a presenter stop.
 function StopNote({ b, lt, x = 40, y = 900, w = 1360 }) {
   const at = stopStart(b), o = windowOp(lt, at - 0.2, at + holdOf(b) + 0.3, 0.35); if (o <= 0) return null;
-  const left = Math.max(1, Math.ceil(at + holdOf(b) - lt));
-  return <div style={{ position: "absolute", left: x, top: y, width: w, textAlign: "center", opacity: o, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop {stopN(b)} of 3 · press play to continue · {left}</div>;
+  return <div style={{ position: "absolute", left: x, top: y, width: w, textAlign: "center", opacity: o, fontFamily: SANS, fontSize: 26, color: SK.dim }}>Stop {stopN(b)} of 3</div>;
 }
 // The FIELD from above: `rows` strips ploughed in a snake, done = 0→1 of the whole field.
 function PlanField({ x, y, w, h, rows = 16, done = 0, head = "bullock", lt = 0, op = 1 }) {

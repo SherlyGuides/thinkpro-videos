@@ -72,7 +72,7 @@ function StopBox({ lt, b, n, head = "PAUSE AND DISCUSS", x = 40, y = 560, w = 13
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "8px 26px", borderRadius: 14 }}>{head}</div>
       </div>
       {children}
-      <div style={{ position: "absolute", left: 44, bottom: 22, fontFamily: SANS, fontSize: 23, color: SK.dim }}>Stop {n} of 4 · press play to continue</div>
+      <div style={{ position: "absolute", left: 44, bottom: 22, fontFamily: SANS, fontSize: 23, color: SK.dim }}>Stop {n} of 4</div>
     </div>
   );
 }
@@ -574,7 +574,7 @@ function B10(ctx) {
             return <div key={i} style={{ display: "flex", gap: 22, alignItems: "center", marginTop: i ? 20 : 40, opacity: o, transform: `translateX(${(1 - o) * 30}px)` }}>
               <span style={{ flex: "none", fontFamily: SERIF, fontWeight: 700, fontSize: 40, color: SK.gold, width: 44 }}>{i + 1}</span>
               <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 40, color: SK.white, background: "rgba(255,255,255,0.08)", padding: "10px 26px", borderRadius: 18 }}>{q}</span></div>; })}
-          <div style={{ position: "absolute", left: 70, bottom: 36, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop 4 of 4 · then compare with your guesses from Stop 1 · press play to continue</div>
+          <div style={{ position: "absolute", left: 70, bottom: 36, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop 4 of 4 · then compare with your guesses from Stop 1</div>
         </div>}
       </Scene>
     );

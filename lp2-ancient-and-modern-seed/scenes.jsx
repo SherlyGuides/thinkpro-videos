@@ -328,7 +328,7 @@ function B7(ctx) {
               {SORT.map(([t], i) => <div key={t} style={{ background: SK.cream, color: SK.ink, borderRadius: 16, padding: "22px 18px", fontFamily: SANS, fontWeight: 700, fontSize: 26, textAlign: "center", minHeight: 110, display: "flex", alignItems: "center", justifyContent: "center", opacity: out3(lt, sAt + 0.3 + i * 0.1, 0.4) }}>{t}</div>)}
             </div>
             <div style={{ fontFamily: SANS, fontSize: 28, color: SK.gold, marginTop: 34 }}>Then write three seed-saving steps.</div>
-            <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 10 }}>Stop 4 of 5 · press play to continue</div>
+            <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 10 }}>Stop 4 of 5</div>
           </div>)}
       </Scene>
     );

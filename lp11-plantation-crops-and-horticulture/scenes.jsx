@@ -142,18 +142,8 @@ function WowCard({ lt, at, settle, text }) {
     </div>
   );
 }
-// Countdown ring shown during a presenter hold (the export holds; the web player freezes).
-function Count({ lt, at, hold, x, y }) {
-  if (lt < at - 0.2 || lt > at + hold + 0.3) return null;
-  const p = clamp((lt - at) / hold, 0, 1), n = Math.max(1, Math.ceil(hold * (1 - p)));
-  return (
-    <svg width="130" height="130" viewBox="0 0 130 130" style={{ position: "absolute", left: x, top: y }}>
-      <circle cx="65" cy="65" r="54" stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none" />
-      <circle cx="65" cy="65" r="54" stroke={SK.gold} strokeWidth="8" fill="none" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 54 * (1 - p)} ${2 * Math.PI * 54}`} transform="rotate(-90 65 65)" />
-      <text x="65" y="85" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="56" fill={SK.white}>{n}</text>
-    </svg>
-  );
-}
+// The countdown now comes from StopAt in engine/story-kit.jsx.
+const Count = () => null;
 // Pause card over the photo area (gold pause icon + heading). Compact: the frozen scene stays visible above it.
 function StopShell({ lt, at, hold, heading, n, children, top = 60, h = 900, bg = "rgba(5,30,22,0.92)", pad = "34px 60px" }) {
   const o = windowOp(lt, at - 0.3, at + hold + 0.4, 0.35); if (o <= 0) return null;
@@ -165,7 +155,7 @@ function StopShell({ lt, at, hold, heading, n, children, top = 60, h = 900, bg =
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 42, color: SK.white }}>{heading}</div>
       </div>
       {children}
-      <div style={{ position: "absolute", left: 60, bottom: 22, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 5 · press play to continue</div>
+      <div style={{ position: "absolute", left: 60, bottom: 22, fontFamily: SANS, fontSize: 24, color: SK.dim }}>Stop {n} of 5</div>
       <Count lt={lt} at={at} hold={hold} x={LEFT_W - 80 - 160} y={h - 150} />
     </div>
   );

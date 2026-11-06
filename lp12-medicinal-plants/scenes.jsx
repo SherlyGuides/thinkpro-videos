@@ -80,18 +80,8 @@ function Fly({ slot, label, x, y, w, h, lt, at, out = null, from = 1.5, dur = 2.
     </div>
   );
 }
-// Countdown ring shown during a presenter hold (the export holds; the web player freezes).
-function Count({ lt, at, hold, x, y }) {
-  if (lt < at - 0.2 || lt > at + hold + 0.3) return null;
-  const p = clamp((lt - at) / hold, 0, 1), n = Math.max(1, Math.ceil(hold * (1 - p)));
-  return (
-    <svg width="100" height="100" viewBox="0 0 130 130" style={{ position: "absolute", left: x, top: y }}>
-      <circle cx="65" cy="65" r="54" stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none" />
-      <circle cx="65" cy="65" r="54" stroke={SK.gold} strokeWidth="8" fill="none" strokeLinecap="round" strokeDasharray={`${2 * Math.PI * 54 * (1 - p)} ${2 * Math.PI * 54}`} transform="rotate(-90 65 65)" />
-      <text x="65" y="85" textAnchor="middle" fontFamily={SERIF} fontWeight="700" fontSize="56" fill={SK.white}>{n}</text>
-    </svg>
-  );
-}
+// The countdown now comes from StopAt in engine/story-kit.jsx.
+const Count = () => null;
 // Pause card: leaves the frozen picture visible above it. Default box stays clear of the no-go zone.
 function StopBox({ lt, b, n, head = "PAUSE AND DISCUSS", x = 40, y = 440, w = 1360, h = 360, children }) {
   const at = stopStart(b), hold = holdOf(b);
@@ -104,7 +94,7 @@ function StopBox({ lt, b, n, head = "PAUSE AND DISCUSS", x = 40, y = 440, w = 13
         <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 28, letterSpacing: "0.08em", color: SK.ink, background: SK.gold, padding: "8px 26px", borderRadius: 14 }}>{head}</div>
       </div>
       {children}
-      <div style={{ position: "absolute", left: 44, bottom: 20, fontFamily: SANS, fontSize: 23, color: SK.dim }}>Stop {n} of 4 · press play to continue</div>
+      <div style={{ position: "absolute", left: 44, bottom: 20, fontFamily: SANS, fontSize: 23, color: SK.dim }}>Stop {n} of 4</div>
       <Count lt={lt} at={at} hold={hold} x={w - 134} y={h - 118} />
     </div>
   );
@@ -526,7 +516,7 @@ function B10(ctx) {
           {QUICK.map((q, i) => <div key={i} style={{ display: "flex", gap: 20, alignItems: "baseline", marginTop: i === 0 ? 26 : 13, opacity: out3(lt, at + 0.2 + i * 0.25, 0.5) }}>
             <span style={{ flex: "none", width: 40, fontFamily: SERIF, fontWeight: 700, fontSize: 38, color: SK.gold }}>{i + 1}</span>
             <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 36, lineHeight: 1.16, color: SK.white, background: "rgba(255,255,255,0.08)", padding: "7px 22px", borderRadius: 14 }}>{q}</span></div>)}
-          <div style={{ position: "absolute", left: 60, bottom: 26, fontFamily: SANS, fontSize: 25, color: SK.dim }}>Stop 4 of 4 · press play to continue</div>
+          <div style={{ position: "absolute", left: 60, bottom: 26, fontFamily: SANS, fontSize: 25, color: SK.dim }}>Stop 4 of 4</div>
           <Count lt={lt} at={at} hold={hold} x={1230} y={24} />
         </div>}
       </Scene>

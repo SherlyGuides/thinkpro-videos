@@ -79,7 +79,7 @@ function Stop({ lt, b, heading, x = 40, y = 36, w = LEFT_W - 80, h = 910, q, qSi
       </div>
       {q && <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: qSize, lineHeight: 1.2, color: SK.white, marginTop: 24 }}>{q}</div>}
       {children}
-      {foot && <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 18 }}>Stop {n} of {STOPS.length} · press play to continue</div>}
+      {foot && <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 18 }}>Stop {n} of {STOPS.length}</div>}
     </div>
   );
 }
@@ -431,7 +431,7 @@ function B8(ctx) {
             ))}
           </div>
           <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 44, color: SK.white, marginTop: 36 }}>Tell · Wash · Press · Cover</div>
-          <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop 4 of {STOPS.length} · press play to continue</div>
+          <div style={{ fontFamily: SANS, fontSize: 24, color: SK.dim, marginTop: 14 }}>Stop 4 of {STOPS.length}</div>
         </Stop>
         <Instr lt={lt} at={S(b, 0)} n={7} word={ctx.titles[8]} aid max={6} lines={[L("For a minor cut", W(b, "if"), "head", { out: stop }),
           L("1 TELL the teacher at once", t1 - 0.5, "plain", { out: stop }), L("2 WASH the wound with clean water", t2 - 0.5, "plain", { out: stop }),
